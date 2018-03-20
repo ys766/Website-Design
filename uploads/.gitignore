@@ -7,9 +7,8 @@
 
 # Tell Git to NOT ignore your upload folders that correspond with your DB tables,
 # Then tell Git to ignore all files in those folders
-!/box/
-/box/*
+!/images/
+/images/*
 
 # Tell Git to NOT ignore your EACH seed file in your your upload folders.
-!/box/1.pdf
 !/images/shanghai_1.jpg
