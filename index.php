@@ -11,5 +11,6 @@
 
 <body>
 <?php include ("includes/init.php") ?>
+
 </body>
 </html>
