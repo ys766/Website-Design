@@ -10,7 +10,10 @@
 </head>
 
 <body>
-<?php include ("includes/init.php") ?>
+<?php 
+	include ("includes/init.php") 
+	include ("includes/nav.php")
+?>
 
 </body>
 </html>

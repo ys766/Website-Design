@@ -1,5 +1,8 @@
 <?php
-
+CONST PAGES = array("index" => "Home",
+                    "view" => "Gallery",
+                    "login" => "Log In",
+                    "upload" => "Upload");
 // show database errors during development.
 function handle_db_error($exception) {
   echo '<p><strong>' . htmlspecialchars('Exception : ' . $exception->getMessage()) . '</strong></p>';
