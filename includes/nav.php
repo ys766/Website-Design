@@ -1,15 +1,23 @@
-<nav class="vertical">
-  <ul>
+<header>
+  <h1 id="WebsiteHeader"> TRAVEL BOOK </h1>
+  <nav id="menu">
+    <ul>
     <?php
-    foreach(PAGES as $page_id => $page_name) {
-      $page_file_name = $page_id . '.php';
+    foreach($pages as $page_id => $page_name) {
+      $filename = $page_id . ".php";
       if ($current_page == $page_id) {
-        print "<li> <a id=\"current_page\" href=$page_file_name>$page_name</a></li>";
+        echo "<li> <a href=" . $filename . " class='current_page'>" . $page_name . "</a></li>";
       }
       else {
-        print "<li> <a href=$page_file_name>$page_name</a></li>";
+        echo "<li> <a href=" . $filename . ">" . $page_name . "</a></li>";
       }
     }
     ?>
   </ul>
-</nav>
+  </nav>
+  <?php
+  if ($current_user) {
+    echo "<h2> Welcome " . $current_user["realname"] . "! </h2>";
+  }
+   ?>
+</header>

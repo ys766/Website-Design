@@ -1,8 +1,10 @@
 <?php
-CONST PAGES = array("index" => "Home",
-                    "view" => "Gallery",
-                    "login" => "Log In",
-                    "upload" => "Upload");
+$pages = array("index" => "Home",
+               "gallery" => "Gallery",
+               "login" => "Log In",
+               "upload" => "Upload",
+               "logout" => "Logout");
+
 // show database errors during development.
 function handle_db_error($exception) {
   echo '<p><strong>' . htmlspecialchars('Exception : ' . $exception->getMessage()) . '</strong></p>';
@@ -30,7 +32,7 @@ function open_or_init_sqlite_db($db_filename, $init_sql_filename) {
     $db_init_sql = file_get_contents($init_sql_filename);
     if ($db_init_sql) {
       try {
-        $result = $db->exec($db_init_sql);
+        $result = $db -> exec($db_init_sql);
         if ($result) {
           return $db;
         }
@@ -51,14 +53,14 @@ function open_or_init_sqlite_db($db_filename, $init_sql_filename) {
 
 function record_message($message) {
   global $messages;
-  array.push($messages, $message);
+  array_push($messages, $message);
 }
 
 // open or initialize the database
 $db = open_or_init_sqlite_db("data.sqlite", "init/init.sql");
 $messages = array();
-// the function check_login checks whether if a user has logged in for every page. 
-// return value: the username and the real name of the account holder
+// the function check_login checks whether if a user has logged in for every page.
+// return value: id, the username and the real name of the account holder
 function check_login() {
 
   global $db;
@@ -67,24 +69,25 @@ function check_login() {
   if (isset($_COOKIE["session"])) {
     $session = $_COOKIE["session"];
 
-    $sql = "SELECT username, realname FROM accounts WHERE session = :session;";
+    $sql = "SELECT id, username, realname FROM accounts WHERE session = :session;";
     $params = array(":session" => $session);
     $results = exec_sql_query($db, $sql, $params) -> fetchAll();
 
-    if (results) {
-      $account = results[0];
-      return array("username" => $account["username"],
+    if ($results) {
+      $account = $results[0];
+      return array("id" => $account["id"],
+                   "username" => $account["username"],
                    "realname" => $account["realname"]);
     }
 
-    // no one has logged in. 
+    // no one has logged in.
     return NULL;
   }
 }
 
 // function log_in checks if the username and password already exist in the database.
 // it returns TRUE if and only if the username has logged in and a session cookie has been
-// created for that username. 
+// created for that username.
 function log_in($username, $password) {
 
   global $db;
@@ -98,7 +101,7 @@ function log_in($username, $password) {
     if($record) {
       $account = $record[0];
 
-      // check password 
+      // check password
       if (password_verify($password, $account["password"])) {
 
         // generate a session for the user
@@ -106,12 +109,12 @@ function log_in($username, $password) {
         $sql = "UPDATE accounts SET session = :session WHERE id = :user_id;";
         $params = array(":session" => $session,
                         ":user_id" => $account["id"]);
-        $record = exec_sql_query($db, $sql, $params);
+        $record_login = exec_sql_query($db, $sql, $params);
 
         // success log-in
-        if ($record) {
+        if ($record_login) {
           setcookie("session", $session, time()+3600);
-          record_message("Logged in as $account["realname"]");
+          record_message("Logged in as " . $account["realname"]);
           return TRUE;
         }
 
@@ -129,12 +132,12 @@ function log_in($username, $password) {
 }
 
 
-// the function log_out lets a user log out of the system has not logged in for every page. 
+// the function log_out lets a user log out of the system has not logged in for every page.
 function log_out() {
   global $db;
   global $current_user;
 
-  // there is a user who has logged in the system. Then log him/her out. 
+  // there is a user who has logged in the system. Then log him/her out.
   if ($current_user) {
     $sql = "UPDATE accounts SET session = :session WHERE username = :username;";
     $params = array(":session" => NULL,
@@ -150,6 +153,7 @@ function log_out() {
 
 // check if we need to log in
 if(isset($_POST["login"])) {
+
   $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
   $username = trim($username);
   $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
@@ -159,5 +163,4 @@ if(isset($_POST["login"])) {
 }
 
 $current_user = check_login();
-
 ?>

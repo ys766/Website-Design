@@ -1,3 +1,5 @@
+<?php include ("includes/init.php");
+$current_page = "login"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -10,6 +12,30 @@
 </head>
 
 <body>
-<?php include ("includes/init.php") ?>
+  <div class = "wrapper">
+    <div class = "static">
+      <?php include ("includes/nav.php"); ?>
+    </div>
+    <div class = "content">
+      <?php
+
+       ?>
+        <form id="userlogin" action="login.php" method="post">
+          <ul>
+            <li>
+              <label> Username: </label>
+              <input type="text" name="username" required />
+            </li>
+
+            <li>
+              <label> Password: </label>
+              <input type="password" name="password" required />
+            </li>
+            <li> <button name="login" type="submit"> Log In </button> </li>
+          </ul>
+        </form>
+    </div>
+  </div>
+  <?php include ("includes/footer.php") ?>
 </body>
 </html>
