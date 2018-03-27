@@ -18,7 +18,7 @@ $current_page = "index"; ?>
     <div class = "content">
       <div class = "intro">
       <p>
-        Welcome to TRAVEL BOOK! <br />
+        Welcome to TRAVEL BOOK! <br /> <br />
         Still excited about your past trips? Share your trip photos with other avid travelers just like you!
       </p>
     </div>

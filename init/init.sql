@@ -35,13 +35,12 @@ VALUES ("ys766", "$2y$10$kVAeWyLFA7hyPaBMD9A3Jux6nsWGZGzr9nx7WOAZ2heNJttvmFBqq",
 INSERT INTO accounts (username, password, realname)
 VALUES ("YuzheSheng", "$2y$10$itiPYmv3S69wb7ju90VRuOaVA7kxGwFMzGPRj/3ZniSxE5d104Tsy", "Yuzhe Sheng"); /* password: happycodingMonkey */
 
-INSERT INTO images (image_name, image_ext, description, user_id)
-VALUES ("Chicagopier.jpg", "jpg", "The Pier in Chicago", 1);
-INSERT INTO images (image_name, image_ext, description, user_id)
-VALUES ("edinburgh.jpg", "jpg", "Old town in Edinburgh", 1);
-INSERT INTO images (image_name, image_ext, description, user_id)
-VALUES ("sausalito.jpg", "jpg", "Saussalito in San Francisco, California", 1);
-
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("morocco.jpg", "jpg", "Morocco Temple", 1, "http://outgotrip.com/product/colours-of-morocco/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("Istanbul.jpg", "jpg", "Istanbul, Turkey", 1, "https://handluggageonly.co.uk/2016/02/01/11-experiences-you-will-want-to-try-in-istanbul/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("Dubai.jpg", "jpeg", "The Burj Khalifa in Dubai, United Arab Emirates", 1, "https://www.emiratesholidays.com/gb_en/destination/middle-east/dubai");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Arcticlight.jpg", "jpg", "Aurora in Northern Norway", 1, "https://www.wanderingeducators.com/best/traveling/arctic-light-aurora-borealis-vesterålen-northern-norway.html");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -78,6 +77,8 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("NYCEmpire.jpg", "jpg", "New York City Empire State Building", 1, "https://en.wikipedia.org/wiki/Empire_State_Building");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("cherryblossm.jpg", "jpg", "Cherry Blossom", 2, "https://traveler.marriott.com/tokyo/the-best-time-to-view-japan-cherry-blossoms/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/");
 
 INSERT INTO tags (tag_name)
 VALUES ("Asian");

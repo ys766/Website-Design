@@ -8,6 +8,7 @@ $current_page = "gallery"; ?>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="Yuzhe Sheng" />
   <link rel="stylesheet" type="text/css" href="styles/all.css" media="all" />
+  <script src="script/script.js"> </script>
   <title>Gallery</title>
 </head>
 
@@ -17,64 +18,88 @@ $current_page = "gallery"; ?>
       <?php include ("includes/nav.php"); ?>
     </div>
     <div class = "content">
-      <div class = "window">
       <?php
       CONST NUM_COLUMNS = 4;
       CONST PATH_IMG = "uploads/images/";
-      // obtain all image_id
-      $sql = "SELECT id, image_ext, description, citation from images;";
-      $records = exec_sql_query($db, $sql) -> fetchAll();
+      // view all images at once
+      if (!isset($_GET["image_id"])) {
+        echo "<div class='window'>";
+        // obtain all images information
+        $sql = "SELECT * from images;";
+        $records = exec_sql_query($db, $sql) -> fetchAll();
 
-      if ($records) {
-        $length = count($records);
-        $num_per_column = floor($length / NUM_COLUMNS);
+        if ($records) {
+          $length = count($records);
+          $num_per_column = floor($length / NUM_COLUMNS);
 
-        for ($i = 1; $i <= NUM_COLUMNS; $i++) {
-          echo "<div class=column>";
-          if ($i < NUM_COLUMNS) {
-            for ($j = 1; $j <= $num_per_column; $j++) {
-              $index = ($i - 1) * $num_per_column + $j - 1;
-              // echo $index;
-              $record = $records[$index];
-              $file_name = PATH_IMG . $record["id"]. "." . $record["image_ext"];
-              // echo $file_name;
-              if ($record["citation"]){
-                echo "<div><img src=" . $file_name . "><a href=" . $record["citation"] . ">soure</a></div>";
-              }
-              else {
-                echo "<div><img src=" . $file_name . "></div>";
+          for ($i = 1; $i <= NUM_COLUMNS; $i++) {
+            echo "<div class=column>";
+            if ($i < NUM_COLUMNS) {
+              for ($j = 1; $j <= $num_per_column; $j++) {
+                $index = ($i - 1) * $num_per_column + $j - 1;
+                // echo $index;
+                $record = $records[$index];
+                $file_name = PATH_IMG.$record["id"]. "." . $record["image_ext"];
+                $image_link = array("image_id" => $record["id"]);
+                // echo $file_name;
+                echo "<div><a href=gallery.php?".http_build_query($image_link).">
+                <img src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
               }
             }
-          }
-          else {
-            $index = ($i - 1) * $num_per_column;
-            // echo $index;
-            while ($index < $length) {
+            else {
+              $index = ($i - 1) * $num_per_column;
               // echo $index;
-              $record = $records[$index];
-              $file_name = PATH_IMG . $record["id"]. "." . $record["image_ext"];
-              // echo $file_name;
-              if ($record["citation"]){
-                echo "<div><img src=" . $file_name . "><a href=" . $record["citation"] . ">source</a></div>";
+              while ($index < $length) {
+                // echo $index;
+                $record = $records[$index];
+                $file_name = PATH_IMG. $record["id"]. "." . $record["image_ext"];
+                $image_link = array("image_id" => $record["id"]);
+                // echo $file_name;
+                echo "<div><a href=gallery.php?". http_build_query($image_link).">
+                <img src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                $index = $index + 1;
               }
-              else {
-                echo "<div><img src=" . $file_name . "></div>";
-              }
-              $index = $index + 1;
             }
+            echo "</div>";
           }
+        }
+        echo "</div>";
+      }
+      // view a single image
+      else {
+        $image_id = filter_var($_GET["image_id"], FILTER_SANITIZE_NUMBER_INT);
+        // find all information about that image, including filename, and the user's name
+        $sql = "SELECT images.*, accounts.realname
+                FROM images INNER JOIN accounts
+                ON images.user_id = accounts.id
+                WHERE images.id = :id;";
+        $params = array(":id" => $image_id);
+        $records = exec_sql_query($db, $sql, $params) -> fetchAll();
+
+        // the requested single image is available
+        if ($records) {
+          $record = $records[0];
+          $file_name = PATH_IMG. $record["id"] . "." . $record["image_ext"];
+          echo "<div class='single_img'><img src=" . $file_name . " class='img_single'></div>";
+          echo "<div class='details'>";
+          echo "<ul><li> Image Name: " . $record["image_name"] . "</li>" .
+                   "<li> Description: " . $record["description"] . "</li>" .
+                   "<li> Photographed by: " . $record["realname"] . "</li>" .
+                   "<li> <a href=" . $record["citation"] . ">Source: " . $record['citation'] . "</a></li>".
+                   "</ul>";
           echo "</div>";
         }
       }
        ?>
      </div>
     </div>
-  </div>
 <?php include ("includes/footer.php") ?>
 </body>
 <!--
  citation
- The first three images are taken by myself. So the following citations start with image 3.jpg
+ 1.jpg: http://outgotrip.com/product/colours-of-morocco/
+ 2.jpg: https://handluggageonly.co.uk/2016/02/01/11-experiences-you-will-want-to-try-in-istanbul/
+ 3.jpg: https://www.emiratesholidays.com/gb_en/destination/middle-east/dubai
  4.jpg: https://www.wanderingeducators.com/best/traveling/arctic-light-aurora-borealis-vesterålen-northern-norway.html
  5.jpg: https://wikitravel.org/en/Antarctica
  6.jpg: https://www.zicasso.com/african-safari
