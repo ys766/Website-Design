@@ -4,7 +4,7 @@ $current_page = "upload";
 const MAX_FILE_SIZE = 1000000;
 const IMG_UPLOADS_PATH = "uploads/images/";
 
-if (isset($_POST["submit_upload"])) {
+if (isset($_POST["submit_upload"]) and $current_user) {
   $upload_info = $_FILES["img_file"];
   $upload_desc = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 
@@ -33,6 +33,10 @@ if (isset($_POST["submit_upload"])) {
   } else {
     array_push($messages, "Failed to upload file.");
   }
+}
+
+else if (isset($_POST["submit_upload"])) {
+  echo "You must log in first prior to uploading a phot"
 }
 ?>
 <!DOCTYPE html>
