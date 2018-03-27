@@ -22,7 +22,7 @@ $current_page = "gallery"; ?>
       CONST NUM_COLUMNS = 4;
       CONST PATH_IMG = "uploads/images/";
       // obtain all image_id
-      $sql = "SELECT id, image_ext, citation from images;";
+      $sql = "SELECT id, image_ext, description, citation from images;";
       $records = exec_sql_query($db, $sql) -> fetchAll();
 
       if ($records) {

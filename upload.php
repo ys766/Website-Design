@@ -36,7 +36,7 @@ if (isset($_POST["submit_upload"]) and $current_user) {
 }
 
 else if (isset($_POST["submit_upload"])) {
-  echo "You must log in first prior to uploading a phot"
+  echo "You must log in first prior to uploading a phot";
 }
 ?>
 <!DOCTYPE html>
