@@ -160,6 +160,8 @@ if(isset($_POST["login"])) {
 
   log_in($username, $password);
 
+  echo "Logged in as $username";
+
 }
 
 $current_user = check_login();
