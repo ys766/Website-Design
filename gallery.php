@@ -23,7 +23,7 @@ $current_page = "gallery"; ?>
       CONST PATH_IMG = "uploads/images/";
       // view all images at once
       if (!isset($_GET["image_id"])) {
-        echo "<div class='window'>";
+        echo "<div id='window'>";
         // obtain all images information
         $sql = "SELECT * from images;";
         $records = exec_sql_query($db, $sql) -> fetchAll();
@@ -43,7 +43,7 @@ $current_page = "gallery"; ?>
                 $image_link = array("image_id" => $record["id"]);
                 // echo $file_name;
                 echo "<div><a href=gallery.php?".http_build_query($image_link).">
-                <img src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                <img class=\"galleryImages\" src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
               }
             }
             else {
@@ -56,7 +56,7 @@ $current_page = "gallery"; ?>
                 $image_link = array("image_id" => $record["id"]);
                 // echo $file_name;
                 echo "<div><a href=gallery.php?". http_build_query($image_link).">
-                <img src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                <img class=\"galleryImages\" src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
                 $index = $index + 1;
               }
             }

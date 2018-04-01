@@ -17,23 +17,26 @@ $current_page = "login"; ?>
       <?php include ("includes/nav.php"); ?>
     </div>
     <div class = "content">
-      <?php
-
-       ?>
-        <form id="userlogin" action="login.php" method="post">
-          <ul>
+      <?php 
+      if ($current_user) {
+      echo "<form id=\"userlogin\" action=\"login.php\" method=\"post\">
+            <ul>
             <li>
               <label> Username: </label>
-              <input type="text" name="username" required />
+              <input type=\"text\" name=\"username\" required />
             </li>
-
             <li>
               <label> Password: </label>
-              <input type="password" name="password" required />
+              <input type="\password\" name="\password\" required />
             </li>
-            <li> <button name="login" type="submit"> Log In </button> </li>
+            <li> <button name=\"login\" type=\"submit\"> Log In </button> </li>
           </ul>
-        </form>
+        </form>";
+      }
+      else {
+        echo "<p> Logged in as $current_user";
+      }
+      ?>
     </div>
   </div>
   <?php include ("includes/footer.php") ?>
