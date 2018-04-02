@@ -21,11 +21,34 @@ $current_page = "gallery"; ?>
       <?php
       CONST NUM_COLUMNS = 4;
       CONST PATH_IMG = "uploads/images/";
+
+      /*
+      The function showImage takes a single SQL query result as the input,
+      and displays the corresponding queried image on the website. Also,
+      this function displays all relevant information pertaining to that
+      image in a divsion overlayed over the image. The information is listed
+      as the bullet point list. 
+      */
+      function showImage($record) {
+        $image_id = $record["id"];
+        $img_ext = $record["image_ext"];
+        $file_name = PATH_IMG . $image_id . $img_ext;
+        echo "<div class=\"container\"><a href=gallery.php?" . http_build_query(array("image_id" => $image_id)) . 
+              "><img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\"></a>";
+        echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul><li>Image Name: " . $record["image_name"] . "</li>" .
+             "<li>Description: " . $record["description"] . "</li>" .
+             "<li>Photographed by: " . $record["realname"] . "</li>" .
+             "<li>Source: " $record["citation"] . "</li></ul>";
+        echo "</div></div></div>";
+      }
       // view all images at once
       if (!isset($_GET["image_id"])) {
         echo "<div id='window'>";
         // obtain all images information
-        $sql = "SELECT * from images;";
+        $sql = "SELECT images.*, accounts.realname
+                FROM images INNER JOIN accounts 
+                ON images.user_id = accounts.id;";
+
         $records = exec_sql_query($db, $sql) -> fetchAll();
 
         if ($records) {
@@ -38,12 +61,13 @@ $current_page = "gallery"; ?>
               for ($j = 1; $j <= $num_per_column; $j++) {
                 $index = ($i - 1) * $num_per_column + $j - 1;
                 // echo $index;
-                $record = $records[$index];
-                $file_name = PATH_IMG.$record["id"]. "." . $record["image_ext"];
-                $image_link = array("image_id" => $record["id"]);
-                // echo $file_name;
-                echo "<div><a href=gallery.php?".http_build_query($image_link).">
-                <img class=\"galleryImages\" src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                // $record = $records[$index];
+                // $file_name = PATH_IMG.$record["id"]. "." . $record["image_ext"];
+                // $image_link = array("image_id" => $record["id"]);
+                // // echo $file_name;
+                // echo "<div><a href=gallery.php?".http_build_query($image_link).">
+                // <img class=\"galleryImages\" src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                showImage($records[$index]);
               }
             }
             else {
@@ -51,12 +75,13 @@ $current_page = "gallery"; ?>
               // echo $index;
               while ($index < $length) {
                 // echo $index;
-                $record = $records[$index];
-                $file_name = PATH_IMG. $record["id"]. "." . $record["image_ext"];
-                $image_link = array("image_id" => $record["id"]);
-                // echo $file_name;
-                echo "<div><a href=gallery.php?". http_build_query($image_link).">
-                <img class=\"galleryImages\" src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                // $record = $records[$index];
+                // $file_name = PATH_IMG. $record["id"]. "." . $record["image_ext"];
+                // $image_link = array("image_id" => $record["id"]);
+                // // echo $file_name;
+                // echo "<div><a href=gallery.php?". http_build_query($image_link).">
+                // <img class=\"galleryImages\" src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
+                showImage($records[$index]);
                 $index = $index + 1;
               }
             }
