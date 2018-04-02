@@ -18,7 +18,8 @@ $current_page = "login"; ?>
     </div>
     <div class = "content">
       <?php 
-      if ($current_user) {
+      // display the form only when there is no user logged in. 
+      if (!$current_user) {
       echo "<form id=\"userlogin\" action=\"login.php\" method=\"post\">
             <ul>
             <li>
@@ -33,6 +34,8 @@ $current_page = "login"; ?>
           </ul>
         </form>";
       }
+
+      // someone already is logged in 
       else {
         echo "<p> Logged in as $current_user";
       }
