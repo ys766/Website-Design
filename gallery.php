@@ -1,4 +1,6 @@
-<?php include ("includes/init.php");
+<?php
+include ("includes/init.php");
+
 $current_page = "gallery"; ?>
 <!DOCTYPE html>
 <html>
@@ -8,7 +10,8 @@ $current_page = "gallery"; ?>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="Yuzhe Sheng" />
   <link rel="stylesheet" type="text/css" href="styles/all.css" media="all" />
-  <script src="script/script.js"> </script>
+<!--   <script src="script/script.js"> </script>
+ --> 
   <title>Gallery</title>
 </head>
 
@@ -20,7 +23,7 @@ $current_page = "gallery"; ?>
     <div class = "content">
       <?php
       CONST NUM_COLUMNS = 4;
-      CONST PATH_IMG = "uploads/images/";
+      CONST PATH_IMG = "/uploads/images/";
 
       /*
       The function showImage takes a single SQL query result as the input,
@@ -32,13 +35,13 @@ $current_page = "gallery"; ?>
       function showImage($record) {
         $image_id = $record["id"];
         $img_ext = $record["image_ext"];
-        $file_name = PATH_IMG . $image_id . $img_ext;
+        $file_name = PATH_IMG . $image_id . "." . $img_ext;
         echo "<div class=\"container\"><a href=gallery.php?" . http_build_query(array("image_id" => $image_id)) . 
               "><img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\"></a>";
         echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul><li>Image Name: " . $record["image_name"] . "</li>" .
              "<li>Description: " . $record["description"] . "</li>" .
              "<li>Photographed by: " . $record["realname"] . "</li>" .
-             "<li>Source: " $record["citation"] . "</li></ul>";
+             "<li>Source: " . $record["citation"] . "</li></ul>";
         echo "</div></div></div>";
       }
       // view all images at once
@@ -56,7 +59,7 @@ $current_page = "gallery"; ?>
           $num_per_column = floor($length / NUM_COLUMNS);
 
           for ($i = 1; $i <= NUM_COLUMNS; $i++) {
-            echo "<div class=column>";
+            echo "<div class=\"column\">";
             if ($i < NUM_COLUMNS) {
               for ($j = 1; $j <= $num_per_column; $j++) {
                 $index = ($i - 1) * $num_per_column + $j - 1;
