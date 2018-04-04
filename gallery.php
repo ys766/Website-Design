@@ -3,7 +3,7 @@ include ("includes/init.php");
 
 $current_page = "gallery"; ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -11,7 +11,7 @@ $current_page = "gallery"; ?>
   <meta name="author" content="Yuzhe Sheng" />
   <link rel="stylesheet" type="text/css" href="styles/all.css" media="all" />
 <!--   <script src="script/script.js"> </script>
- --> 
+ -->
   <title>Gallery</title>
 </head>
 
@@ -30,66 +30,65 @@ $current_page = "gallery"; ?>
       and displays the corresponding queried image on the website. Also,
       this function displays all relevant information pertaining to that
       image in a divsion overlayed over the image. The information is listed
-      as the bullet point list. 
+      as the bullet point list.
       */
       function showImage($record) {
         $image_id = $record["id"];
         $img_ext = $record["image_ext"];
+        $image_link = array("image_id" => $image_id);
         $file_name = PATH_IMG . $image_id . "." . $img_ext;
-        echo "<div class=\"container\"><a href=gallery.php?" . http_build_query(array("image_id" => $image_id)) . 
-              "><img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\"></a>";
+        echo "<div class=\"container\"><a href=\"gallery.php?" . http_build_query($image_link) .
+              "\"><img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\"></a>";
         echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul><li>Image Name: " . $record["image_name"] . "</li>" .
              "<li>Description: " . $record["description"] . "</li>" .
              "<li>Photographed by: " . $record["realname"] . "</li>" .
-             "<li>Source: " . $record["citation"] . "</li></ul>";
+             "<li>Source: <a href=\"" . $record["citation"] . "\">" . $record["citation"] .
+             "</a></li></ul>";
         echo "</div></div></div>";
       }
       // view all images at once
       if (!isset($_GET["image_id"])) {
-        echo "<div id='window'>";
+        echo "<div id=\"window\">";
         // obtain all images information
         $sql = "SELECT images.*, accounts.realname
-                FROM images INNER JOIN accounts 
+                FROM images INNER JOIN accounts
                 ON images.user_id = accounts.id;";
 
         $records = exec_sql_query($db, $sql) -> fetchAll();
 
-        if ($records) {
-          $length = count($records);
-          $num_per_column = floor($length / NUM_COLUMNS);
+        # vertical stores the images considered as vertical.
+        # horizontal stores the images considered as horizontal.
+        $vertical = array();
+        $horizontal = array();
 
-          for ($i = 1; $i <= NUM_COLUMNS; $i++) {
-            echo "<div class=\"column\">";
-            if ($i < NUM_COLUMNS) {
-              for ($j = 1; $j <= $num_per_column; $j++) {
-                $index = ($i - 1) * $num_per_column + $j - 1;
-                // echo $index;
-                // $record = $records[$index];
-                // $file_name = PATH_IMG.$record["id"]. "." . $record["image_ext"];
-                // $image_link = array("image_id" => $record["id"]);
-                // // echo $file_name;
-                // echo "<div><a href=gallery.php?".http_build_query($image_link).">
-                // <img class=\"galleryImages\" src=" .$file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
-                showImage($records[$index]);
-              }
-            }
-            else {
-              $index = ($i - 1) * $num_per_column;
-              // echo $index;
-              while ($index < $length) {
-                // echo $index;
-                // $record = $records[$index];
-                // $file_name = PATH_IMG. $record["id"]. "." . $record["image_ext"];
-                // $image_link = array("image_id" => $record["id"]);
-                // // echo $file_name;
-                // echo "<div><a href=gallery.php?". http_build_query($image_link).">
-                // <img class=\"galleryImages\" src=" . $file_name . "></a><a href=" . $record["citation"] . ">soure</a></div>";
-                showImage($records[$index]);
-                $index = $index + 1;
-              }
-            }
-            echo "</div>";
+        foreach($records as $record) {
+          if ($record["vertical"] == 1) {
+            array_push($vertical, $record);
           }
+          else {
+            array_push($horizontal, $record);
+          }
+        }
+
+        $num_per_column = floor(count($records) /  NUM_COLUMNS);
+        $ver_per_column = ceil(count($vertical) / NUM_COLUMNS);
+        $hori_index = 0;
+        $ver_index = 0;
+        for ($i = 0; $i < NUM_COLUMNS; $i++) {
+          echo "<div class=\"column\">";
+          // all columns but the last one
+          if ($i < NUM_COLUMNS - 1) {
+            for ($j = 0; $j < $num_per_column; j++) {
+              //TODO
+              pass;
+            }
+          }
+
+          // the last column
+          else {
+            pass;
+          }
+          echo "</div>";
         }
         echo "</div>";
       }

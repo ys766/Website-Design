@@ -28,7 +28,7 @@ $current_page = "login"; ?>
             </li>
             <li>
               <label> Password: </label>
-              <input type="\password\" name="\password\" required />
+              <input type=\"password\" name=\"password\" required />
             </li>
             <li> <button name=\"login\" type=\"submit\"> Log In </button> </li>
           </ul>

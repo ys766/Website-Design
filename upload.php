@@ -12,12 +12,20 @@ if (isset($_POST["submit_upload"]) and $current_user) {
     $upload_name = basename($upload_info["name"]);
     $upload_ext = strtolower(pathinfo($upload_name, PATHINFO_EXTENSION) );
 
-    $sql = "INSERT INTO images (image_name, image_ext, description, user_id) VALUES (:filename, :extension, :description, :user_id)";
+    $vertical = 0;
+    $size = getimagesize($upload_info["tmp_name"]);
+    # width: $size[0] height: $size[1]
+    if ($size[1] >= $size[0] * 1.2) {
+      $vertical = 1;
+    }
+    $sql = "INSERT INTO images (image_name, image_ext, description, user_id, vertical) 
+            VALUES (:filename, :extension, :description, :user_id, :vertical);";
     $params = array(
       ':extension' => $upload_ext,
       ':filename' => $upload_name,
       ':description' => $upload_desc,
-      ":user_id" => $current_user["id"]
+      ":user_id" => $current_user["id"],
+      ":vertical" => $vertical
     );
 
     $result = exec_sql_query($db, $sql, $params);
@@ -40,7 +48,7 @@ else if (isset($_POST["submit_upload"])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />

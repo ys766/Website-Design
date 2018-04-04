@@ -5,12 +5,13 @@ CREATE TABLE images (
   image_ext TEXT NOT NULL,
   user_id INTEGER NOT NULL,
   description TEXT,
-  citation TEXT
+  citation TEXT,
+  vertical INTEGER DEFAULT 0/*vertical is 1 if the image is considered as long. 0 otherwise*/
 );
 
 CREATE TABLE tags (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-  tag_name TEXT NOT NULL
+  tag_name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE image_tag (
@@ -63,8 +64,8 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("tokyotower.jpg", "jpg", "Tokyo Tower in Tokyo, Japan", 2, "https://www.lonelyplanet.com/japan/tokyo/attractions/tokyo-tower/a/poi-sig/396309/356817");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("bigbenlondon.jpg", "jpg", "Big Ben in London, Britain", 2, "https://www.100resilientcities.org/cities/london/");
-INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("statueofLiberty.jpg", "jpg", "The Statue of Liberty in New York City", 2, "https://www.flickr.com/photos/dominiquejames/4621961395/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
+VALUES ("statueofLiberty.jpg", "jpg", "The Statue of Liberty in New York City", 2, "https://www.flickr.com/photos/dominiquejames/4621961395/", 1);
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("hawaiibeach.jpg", "jpg", "A beach in Hawaii, US", 2, "http://beatofhawaii.com/the-cheapest-time-to-fly-to-hawaii-is-coming-soon/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -73,19 +74,45 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("africasavanna.jpg", "jpg", "African tropical savanna", 2, "https://sciencetrends.com/what-tropical-savanna/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Shanghaibund.jpg", "jpg", "The Bund in Shanghai", 1, "https://www.chinadiscovery.com/shanghai/the-bund.html");
-INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("NYCEmpire.jpg", "jpg", "New York City Empire State Building", 1, "https://en.wikipedia.org/wiki/Empire_State_Building");
+INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
+VALUES ("NYCEmpire.jpg", "jpg", "New York City Empire State Building", 1, "https://en.wikipedia.org/wiki/Empire_State_Building", 1);
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("cherryblossm.jpg", "jpg", "Cherry Blossom", 2, "https://traveler.marriott.com/tokyo/the-best-time-to-view-japan-cherry-blossoms/");
-INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
+VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/",1);
 
 INSERT INTO tags (tag_name)
 VALUES ("Asian");
 INSERT INTO tags (tag_name)
 VALUES ("China");
+INSERT INTO tags(tag_name)
+VALUES("Natural");
+INSERT INTO tags(tag_name)
+VALUES("Buildings");
+INSERT INTO tags(tag_name)
+VALUES("US");
+INSERT INTO tags(tag_name)
+VALUES("Afria");
+INSERT INTO tags(tag_name)
+VALUES("Morocco");
+INSERT INTO tags(tag_name)  
+VALUES ("Europe");
+INSERT INTO tags(tag_name)
+VALUES ("Animal");
 
 INSERT INTO image_tag(image_id, tag_id)
-VALUES (1,1);
+VALUES (1,4);
 INSERT INTO image_tag(image_id, tag_id)
-VALUES (1,2);
+VALUES (1,7);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (2,1);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (3,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (4,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (4,8);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (5,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (6,3);

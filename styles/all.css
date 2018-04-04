@@ -107,7 +107,7 @@ h2 {
 	float:left;
 	width:23%;
 	padding:10px;
-	text-align:center;
+	/*text-align:center;*/
 }
 
 #window:after{
@@ -175,6 +175,7 @@ ul li {
 }
 
 .container {
+	position: relative;
 	width: 100%;
 }
 
@@ -182,6 +183,7 @@ ul li {
 	display:block;
 	width:100%;
 	height:auto;
+	margin-top:5%;
 }
 
 .textoverlay{
@@ -189,11 +191,13 @@ ul li {
 	bottom:0;
 	left:0;
 	right:0;
-	background-color: rbga(0,0,0,0.5);
-	overflow:hidden;
+	background-color: rgba(0,0,0,0.5);
+	overflow-y:scroll;
+	overflow-x:hidden;
 	width:100%;
 	height:0;
 	transition: 0.5s ease;
+	word-wrap:break-word;
 }
 
 .container:hover .textoverlay {
@@ -201,18 +205,22 @@ ul li {
 }
 
 .imageDescription{
-  color: white;
-  font-size: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .imageDescription > ul li{
-	list-stye:none;
-	font-size: 1vmin;
-	color: black;
+	list-style:none;
+	font-size: 1.5vmin;
+	color: white;
+	line-height:150%;
+}
+
+.imageDescription a {
+	text-decoration: none;
+	color:white;
 }
