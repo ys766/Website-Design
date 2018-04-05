@@ -71,22 +71,47 @@ $current_page = "gallery"; ?>
         }
 
         $num_per_column = floor(count($records) /  NUM_COLUMNS);
-        $ver_per_column = ceil(count($vertical) / NUM_COLUMNS);
+        $ver_per_column = floor(count($vertical) / NUM_COLUMNS);
+        if ($ver_per_column == 0) { $ver_per_column = 1;}
         $hori_index = 0;
         $ver_index = 0;
         for ($i = 0; $i < NUM_COLUMNS; $i++) {
           echo "<div class=\"column\">";
+          $v = 0;
+          $before = FALSE;
           // all columns but the last one
           if ($i < NUM_COLUMNS - 1) {
-            for ($j = 0; $j < $num_per_column; j++) {
-              //TODO
-              pass;
+            for ($j = 0; $j < $num_per_column; $j++) {
+              if (!$before and $v < $ver_per_column and $ver_index < count($vertical)) {
+                showImage($vertical[$ver_index]);
+                $ver_index = $ver_index + 1;
+                $v = $v + 1;
+                $before = TRUE;
+              }
+              else if ($hori_index < count($horizontal)) {
+                showImage($horizontal[$hori_index]);
+                $before = FALSE;
+                $hori_index = $hori_index + 1;
+              }
             }
           }
 
           // the last column
           else {
-            pass;
+            $num_last = count($records) - (NUM_COLUMNS - 1) * $num_per_column;
+            for ($j = 0; $j < $num_last; $j++) {
+              if (!$before and $v < $ver_per_column and $ver_index < count($vertical)) {
+                showImage($vertical[$ver_index]);
+                $ver_index = $ver_index + 1;
+                $v = $v + 1;
+                $before = TRUE;
+              }
+              else if ($hori_index < count($horizontal)) {
+                showImage($horizontal[$hori_index]);
+                $before = FALSE;
+                $hori_index = $hori_index + 1;
+              }
+            }
           }
           echo "</div>";
         }

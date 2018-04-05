@@ -80,6 +80,10 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("cherryblossm.jpg", "jpg", "Cherry Blossom", 2, "https://traveler.marriott.com/tokyo/the-best-time-to-view-japan-cherry-blossoms/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
 VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/",1);
+INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
+VALUES ("Eiffeltower.jpg", "jpg", "Eiffel Tower in Paris, France", 2, "https://www.amazon.com/Eiffel-Tower-Dusk-Poster-Print/dp/B000XRNKZM", 1);
+INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
+VALUES ("willistower.jpg", "jpg", "The Willis Tower in Chicago, IL, US", 3, "http://peoriapublicradio.org/post/willis-tower-chicago-prepares-500m-face-lift", 1);
 
 INSERT INTO tags (tag_name)
 VALUES ("Asian");
@@ -95,7 +99,7 @@ INSERT INTO tags(tag_name)
 VALUES("Afria");
 INSERT INTO tags(tag_name)
 VALUES("Morocco");
-INSERT INTO tags(tag_name)  
+INSERT INTO tags(tag_name)
 VALUES ("Europe");
 INSERT INTO tags(tag_name)
 VALUES ("Animal");
