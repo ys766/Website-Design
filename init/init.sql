@@ -84,30 +84,44 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation, verti
 VALUES ("Eiffeltower.jpg", "jpg", "Eiffel Tower in Paris, France", 2, "https://www.amazon.com/Eiffel-Tower-Dusk-Poster-Print/dp/B000XRNKZM", 1);
 INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
 VALUES ("willistower.jpg", "jpg", "The Willis Tower in Chicago, IL, US", 3, "http://peoriapublicradio.org/post/willis-tower-chicago-prepares-500m-face-lift", 1);
+/*1*/
+INSERT INTO tags (tag_name)
+VALUES ("asian");
+/*2*/
+INSERT INTO tags (tag_name)
+VALUES ("china");
+/*3*/
+INSERT INTO tags(tag_name)
+VALUES("nature");
+/*4*/
+INSERT INTO tags(tag_name)
+VALUES("buildings");
+/*5*/
+INSERT INTO tags(tag_name)
+VALUES("us");
+/*6*/
+INSERT INTO tags(tag_name)
+VALUES("africa");
+/*7*/
+INSERT INTO tags(tag_name)
+VALUES("morocco");
+/*8*/
+INSERT INTO tags(tag_name)
+VALUES ("europe");
+/*9*/
+INSERT INTO tags(tag_name)
+VALUES ("animal");
+/*10*/
+INSERT INTO tags(tag_name)
+VALUES ("japan");
 
-INSERT INTO tags (tag_name)
-VALUES ("Asian");
-INSERT INTO tags (tag_name)
-VALUES ("China");
-INSERT INTO tags(tag_name)
-VALUES("Natural");
-INSERT INTO tags(tag_name)
-VALUES("Buildings");
-INSERT INTO tags(tag_name)
-VALUES("US");
-INSERT INTO tags(tag_name)
-VALUES("Afria");
-INSERT INTO tags(tag_name)
-VALUES("Morocco");
-INSERT INTO tags(tag_name)
-VALUES ("Europe");
-INSERT INTO tags(tag_name)
-VALUES ("Animal");
 
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (1,4);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (1,7);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (1,6);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (2,1);
 INSERT INTO image_tag(image_id, tag_id)
@@ -120,3 +134,25 @@ INSERT INTO image_tag(image_id, tag_id)
 VALUES (5,3);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (6,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (6,6);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (6,9);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (7,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (7,6);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (8,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (9,1);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (9,2);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (9,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (10,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (10,7);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (10,6);

@@ -1,7 +1,9 @@
 <?php
 include ("includes/init.php");
 
-$current_page = "gallery"; ?>
+$current_page = "gallery";
+$tag_name = "";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +22,6 @@ $current_page = "gallery"; ?>
     <div class = "static">
       <?php include ("includes/nav.php"); ?>
     </div>
-    <div class = "content">
       <?php
       CONST NUM_COLUMNS = 4;
       CONST PATH_IMG = "/uploads/images/";
@@ -35,115 +36,81 @@ $current_page = "gallery"; ?>
       function showImage($record) {
         $image_id = $record["id"];
         $img_ext = $record["image_ext"];
-        $image_link = array("image_id" => $image_id);
         $file_name = PATH_IMG . $image_id . "." . $img_ext;
-        echo "<div class=\"container\"><a href=\"gallery.php?" . http_build_query($image_link) .
-              "\"><img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\"></a>";
+        echo "<div class=\"container\">" .
+              "<img src=" . $file_name . " alt=\"GalleryImages\" class=\"galleryImages\">";
         echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul><li>Image Name: " . $record["image_name"] . "</li>" .
              "<li>Description: " . $record["description"] . "</li>" .
              "<li>Photographed by: " . $record["realname"] . "</li>" .
              "<li>Source: <a href=\"" . $record["citation"] . "\">" . $record["citation"] .
-             "</a></li></ul>";
+             "</a></li><br />".
+             "<li><a class = \"img_link\" href=\"\single_img.php?".http_build_query(array("image_id" => $image_id)). "\">View Image>>></a></li></ul>";
         echo "</div></div></div>";
       }
+
+      function galleryArrangement($records) {
+        shuffle($records); // randomize the photo arrangments.
+        $length = count($records);
+        $num_per_column = floor($length /  NUM_COLUMNS);
+
+        for ($i = 0; $i < NUM_COLUMNS; $i++) {
+          echo "<div class=\"column\">";
+          // all columns but the last one
+          if ($i < NUM_COLUMNS - 1) {
+            for ($j = 0; $j < $num_per_column; $j++) {
+              showImage($records[$i * $num_per_column + $j]);
+            }
+          }
+          // the last column
+          else {
+            $index = $i * $num_per_column;
+            while($index < $length) {
+              showImage($records[$index]);
+              $index = $index + 1;
+            }
+          }
+          echo "</div>";
+        }
+
+      }
+
+      $sql_tag = "SELECT tag_name FROM tags;";
+      $tags = exec_sql_query($db, $sql_tag) -> fetchAll();
+
       // view all images at once
-      if (!isset($_GET["image_id"])) {
+      if (!isset($_GET["image_id"]) and !isset($_GET["tag"])) {
+        echo "<div class = \"content\">";
+        showTags($tags, FALSE);
+
         echo "<div id=\"window\">";
         // obtain all images information
         $sql = "SELECT images.*, accounts.realname
                 FROM images INNER JOIN accounts
                 ON images.user_id = accounts.id;";
-
         $records = exec_sql_query($db, $sql) -> fetchAll();
-
-        # vertical stores the images considered as vertical.
-        # horizontal stores the images considered as horizontal.
-        $vertical = array();
-        $horizontal = array();
-
-        foreach($records as $record) {
-          if ($record["vertical"] == 1) {
-            array_push($vertical, $record);
-          }
-          else {
-            array_push($horizontal, $record);
-          }
-        }
-
-        $num_per_column = floor(count($records) /  NUM_COLUMNS);
-        $ver_per_column = floor(count($vertical) / NUM_COLUMNS);
-        if ($ver_per_column == 0) { $ver_per_column = 1;}
-        $hori_index = 0;
-        $ver_index = 0;
-        for ($i = 0; $i < NUM_COLUMNS; $i++) {
-          echo "<div class=\"column\">";
-          $v = 0;
-          $before = FALSE;
-          // all columns but the last one
-          if ($i < NUM_COLUMNS - 1) {
-            for ($j = 0; $j < $num_per_column; $j++) {
-              if (!$before and $v < $ver_per_column and $ver_index < count($vertical)) {
-                showImage($vertical[$ver_index]);
-                $ver_index = $ver_index + 1;
-                $v = $v + 1;
-                $before = TRUE;
-              }
-              else if ($hori_index < count($horizontal)) {
-                showImage($horizontal[$hori_index]);
-                $before = FALSE;
-                $hori_index = $hori_index + 1;
-              }
-            }
-          }
-
-          // the last column
-          else {
-            $num_last = count($records) - (NUM_COLUMNS - 1) * $num_per_column;
-            for ($j = 0; $j < $num_last; $j++) {
-              if (!$before and $v < $ver_per_column and $ver_index < count($vertical)) {
-                showImage($vertical[$ver_index]);
-                $ver_index = $ver_index + 1;
-                $v = $v + 1;
-                $before = TRUE;
-              }
-              else if ($hori_index < count($horizontal)) {
-                showImage($horizontal[$hori_index]);
-                $before = FALSE;
-                $hori_index = $hori_index + 1;
-              }
-            }
-          }
-          echo "</div>";
-        }
-        echo "</div>";
+        galleryArrangement($records);
+        echo "</div></div>";
       }
-      // view a single image
-      else {
-        $image_id = filter_var($_GET["image_id"], FILTER_SANITIZE_NUMBER_INT);
-        // find all information about that image, including filename, and the user's name
-        $sql = "SELECT images.*, accounts.realname
-                FROM images INNER JOIN accounts
-                ON images.user_id = accounts.id
-                WHERE images.id = :id;";
-        $params = array(":id" => $image_id);
-        $records = exec_sql_query($db, $sql, $params) -> fetchAll();
-
-        // the requested single image is available
-        if ($records) {
-          $record = $records[0];
-          $file_name = PATH_IMG. $record["id"] . "." . $record["image_ext"];
-          echo "<div class='single_img'><img src=" . $file_name . " class='img_single'></div>";
-          echo "<div class='details'>";
-          echo "<ul><li> Image Name: " . $record["image_name"] . "</li>" .
-                   "<li> Description: " . $record["description"] . "</li>" .
-                   "<li> Photographed by: " . $record["realname"] . "</li>" .
-                   "<li> <a href=" . $record["citation"] . ">Source: " . $record['citation'] . "</a></li>".
-                   "</ul>";
-          echo "</div>";
-        }
+      // view all images with a single tag
+      else if (isset($_GET["tag"])) {
+          $tag_name = filter_var($_GET["tag"], FILTER_SANITIZE_STRING);
+          $sql = "SELECT images.*, accounts.realname
+                  FROM images INNER JOIN accounts
+                  ON images.user_id = accounts.id
+                  WHERE images.id IN (SELECT images.id
+                                      FROM images INNER JOIN image_tag
+                                      ON images.id = image_tag.image_id
+                                      INNER JOIN tags
+                                      ON image_tag.tag_id = tags.id
+                                      WHERE tags.tag_name = :tag_name)";
+          $params = array(":tag_name" => $tag_name);
+          $records = exec_sql_query($db, $sql, $params) -> fetchAll();
+          echo "<div class = \"content\">";
+          showTags($tags, FALSE);
+          echo "<div id = \"window\">";
+          galleryArrangement($records);
       }
        ?>
-     </div>
     </div>
 <?php include ("includes/footer.php") ?>
 </body>

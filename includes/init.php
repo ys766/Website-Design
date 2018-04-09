@@ -4,7 +4,30 @@ $pages = array("index" => "Home",
                "login" => "Log In",
                "upload" => "Upload",
                "logout" => "Logout");
-
+// show tags
+function showTags($tags, $single) {
+  global $tag_name;
+  if ($tags) {
+    echo "<div class=\"tags\">";
+    echo "<ul id=\"tag_list\">";
+    foreach($tags as $tag) {
+      $string = "<li>";
+      if (!$single) {
+        $string = $string . "<a ";
+        if (strlen($tag_name) > 0 and ($tag_name == $tag["tag_name"])) {
+          $string = $string . "class=\"selectedTag\" ";
+        }
+        echo $string. "href=\"gallery.php?".http_build_query(array("tag"=>$tag["tag_name"]))."\">#".
+                  ucfirst($tag["tag_name"])."</a></li>";
+      }
+      else {
+        echo $string . "#". ucfirst($tag["tag_name"]) . "</li>";
+      }
+    }
+    echo "</ul>";
+    echo "</div>";
+  }
+}
 // show database errors during development.
 function handle_db_error($exception) {
   echo '<p><strong>' . htmlspecialchars('Exception : ' . $exception->getMessage()) . '</strong></p>';
