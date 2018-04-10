@@ -96,10 +96,12 @@ $current_page = "gallery";
         echo "<div class='details'>";
         echo "<ul><li> Image Name: " . htmlspecialchars($record["image_name"]) . "</li>" .
         "<li> Description: " . htmlspecialchars($record["description"]) . "</li>" .
-        "<li> Photographed by: " . htmlspecialchars($record["realname"]) . "</li>" .
-        "<li> <a href=" . htmlspecialchars($record["citation"]) .
-        ">Source: " . htmlspecialchars($record['citation']) . "</a></li>".
-        "</ul>";
+        "<li> Photographed by: " . htmlspecialchars($record["realname"]) . "</li>";
+        if ($record["citation"]) {
+          echo "<li> <a href=" . htmlspecialchars($record["citation"]) .
+          ">Source: " . htmlspecialchars($record['citation']) . "</a></li>";
+        }
+        echo "</ul>";
         echo "<form id=\"addtag\" action=\"single_img.php?". http_build_query(array("image_id" => $image_id)) .
         "\" method=\"post\">
         <label> Add a new tag? </label>

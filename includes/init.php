@@ -1,7 +1,7 @@
 <?php
 $pages = array("index" => "Home",
 "gallery" => "Gallery",
-"private_gallery" => "Private Gallery",
+"private_gallery" => "My Gallery",
 "upload" => "Upload",
 "logout" => "Logout");
 
@@ -265,12 +265,13 @@ function showImage($record) {
   echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul>
   <li>Image Name: " . htmlspecialchars($record["image_name"]) . "</li>" .
   "<li>Description: " . htmlspecialchars($record["description"]) . "</li>" .
-  "<li>Photographed by: " . htmlspecialchars($record["realname"]) . "</li>" .
-  "<li>Source: <a href=\"" . htmlspecialchars($record["citation"]) . "\">" .
-  htmlspecialchars($record["citation"]) . "</a></li><li></li>".
-  "<li><a class = \"img_link\" href=\"single_img.php?" .
-  http_build_query(array("image_id" => $image_id)). "\">View</a></li></ul>";
-  echo "</div></div></div>";
+  "<li>Photographed by: " . htmlspecialchars($record["realname"]) . "</li>";
+  if ($record["citation"]) {
+    echo "<li>Source: <a href=\"" . htmlspecialchars($record["citation"]) . "\">" .
+    htmlspecialchars($record["citation"]) . "</a></li><li></li>";
+  }
+  echo "<li><a class = \"img_link\" href=\"single_img.php?" .
+  http_build_query(array("image_id" => $image_id)). "\">View</a></li></ul></div></div></div>";
 }
 
 function galleryArrangement($records) {

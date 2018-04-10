@@ -101,6 +101,15 @@ $current_page = "upload";
               IMG_UPLOADS_PATH . "$file_id" . ".$upload_ext" .
               "\" alt=\"uploaded\"><a href=\"single_img.php?" .
               http_build_query(array("image_id" => $file_id)) . "\">View Image>>></a></div>";
+              echo "<div class=\"details\">";
+              echo "<ul><li> Image Name: " . htmlspecialchars($upload_name) . "</li>" .
+              "<li> Description: " . htmlspecialchars($upload_desc) . "</li>" .
+              "<li> Photographed by: " . htmlspecialchars($current_user["realname"]) . "</li>";
+              if ($source) {
+                echo "<li> <a href=" . htmlspecialchars($source) .
+                ">Source: " . htmlspecialchars($source) . "</a></li>";
+              }
+              echo "</ul>";
               record_message("Your file has been uploaded");
 
             }

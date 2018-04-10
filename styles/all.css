@@ -185,6 +185,10 @@ footer > p {
 	word-wrap: break-word;
 }
 
+.details a {
+	color:black;
+	text-decoration:none;
+}
 ul li {
 	list-style:none;
 	font-family:sans-serif;
@@ -306,10 +310,6 @@ ul li {
 	cursor:pointer;
 }
 
-#tag_list a.selectedTag, #tag_list a:hover{
-	color:pink;
-}
-
 #addtag {
 	position:absolute;
 	left: 7%;
@@ -330,9 +330,7 @@ ul li {
 	color:white;
 	background-color:gray;
 }
-.deleteImgButton:hover {
-	color:pink;
-}
+
 .deletebutton .tooltip {
     visibility: hidden;
     width: 15%;
@@ -349,9 +347,6 @@ ul li {
     visibility: visible;
 }
 
-.deletebutton:hover {
-	color:pink;
-}
 
 textarea {
 	overflow-y:scroll;
@@ -394,6 +389,34 @@ textarea {
 	margin-left:5%;
 }
 
-#alert h3 a:hover {
-	color:pink;
+.uploadedImg {
+	position:absolute;
+	left:5%;
+	top:5%;
+	width:50%;
+	overflow-y:scroll;
+	text-align:center;
+}
+
+.uploadedImg a {
+	text-decoration:none;
+	display:block;
+	background-color:gray;
+	color:white;
+	font-size:3vmin;
+	width:50%;
+	border:none;
+	border-radius:7px;
+	text-align:center;
+	margin:5%;
+}
+
+.uploadedImg a:hover, #alert h3 a:hover, .deletebutton:hover, .deleteImgButton:hover,
+#tag_list a.selectedTag, #tag_list a:hover, .img_link:hover {
+	color:rgb(255,182,193);
+}
+
+.newImg{
+	width:100%;
+	height:auto;
 }
