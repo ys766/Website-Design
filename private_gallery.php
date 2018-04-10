@@ -1,5 +1,5 @@
 <?php include ("includes/init.php");
-$current_page = "login"; ?>
+$current_page = "private_gallery"; ?>
 <!DOCTYPE html>
 <html>
 
@@ -17,10 +17,10 @@ $current_page = "login"; ?>
       <?php include ("includes/nav.php"); ?>
     </div>
     <div class = "content">
-      <?php 
-      // display the form only when there is no user logged in. 
+      <?php
+      // display the form only when there is no user logged in.
       if (!$current_user) {
-      echo "<form id=\"userlogin\" action=\"login.php\" method=\"post\">
+      echo "<form id=\"userlogin\" action=\"private_gallery.php\" method=\"post\">
             <ul>
             <li>
               <label> Username: </label>
@@ -34,13 +34,21 @@ $current_page = "login"; ?>
           </ul>
         </form>";
       }
-
-      // someone already is logged in 
+      // someone has logged in. Show his/her own images
       else {
-        echo "<p> Logged in as $current_user";
+        echo "<div class=\"window_private\">";
+        $sql = "SELECT images.*, accounts.realname
+        FROM images INNER JOIN accounts
+        ON images.user_id = accounts.id
+        WHERE accounts.username = :username;";
+        $params = array(":username" => $current_user["username"]);
+        $records = exec_sql_query($db, $sql, $params) -> fetchAll();
+        galleryArrangement($records);
+        echo "</div>";
       }
       ?>
     </div>
+    <?php print_message(); ?>
   </div>
   <?php include ("includes/footer.php") ?>
 </body>

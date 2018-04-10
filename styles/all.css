@@ -17,7 +17,7 @@ body {
 	top: 0;
 	left:0;
 	height: 15%;
-	/* background:red; */
+	/* background:blue; */
 	width: 100%;
 	z-index:2;
 	overflow:hidden;
@@ -30,9 +30,8 @@ body {
 	top: 15%;
 	left:0;
 	width:100%;
-	height:75%;
+	height:80%;
 	overflow-y:hiden;
-	/* background-color:red; */
 }
 
 #WebsiteHeader {
@@ -51,7 +50,7 @@ body {
 	right: 3%;
 	top:20%;
   margin: 0;
-	width: 40%;
+	width: 50%;
 	padding: 0;
  	list-style: none;
 }
@@ -92,49 +91,54 @@ input {
 }
 
 #userlogin > ul > li {
-	line-height: 220%;
+	line-height: 230%;
 }
 
 button {
-	font-size: 3vmin;
+	font-size: 2vmin;
 }
 
-h2 {
+h2{
 	position: absolute;
 	top: 40%;
-	right: 10%;
-	font-size: 5vmin;
-	font-weight:lighter;
+	right:20%;
+	font-size: 4vmin;
+	font-weight:bold;
 }
+
 
 .column {
-	float:right;
+	float:left;
 	width:23%;
 	padding:10px;
-	/*text-align:center;*/
 }
 
-#window:after{
+.window_private:after, .window:after{
 	content:"";
 	clear:both;
 }
 
-#window {
+.window_private, .window {
 	position:absolute;
-	margin:0;
-	left:3%;
-	right:3%;
-	width:94%;
-	height:85%;
+	left:15%;
+	top:0;
+	clear:both;
+	margin-left:5%;
+	margin-right:5%;
+	height:100%;
+	width:80%;
 	overflow-y:scroll;
-	/* background-color:purple; */
+}
+
+.window_private{
+	left:5%;
 }
 
 footer {
 	position:fixed;
 	margin:0;
 	bottom:0;
-	height:10%;
+	height:5%;
 	width:100%;
 	overflow:hidden;
 	z-index:2;
@@ -143,7 +147,7 @@ footer {
 footer > p {
 	position: absolute;
 	right: 5%;
-	bottom: 10%;
+	bottom: 1%;
 }
 
 .intro {
@@ -157,9 +161,9 @@ footer > p {
 
 .single_img {
 	position: absolute;
-	top: 15%;
+	top: 5%;
 	bottom:0;
-	left: 10%;
+	left: 25%;
 	width: 25%;
 	overflow-y:scroll;
 }
@@ -172,12 +176,12 @@ footer > p {
 
 .details {
 	position:absolute;
-	top: 15%;
-	left: 40%;
+	top: 5%;
+	left: 55%;
 	height: 75%;
-	width: 50%;
-	overflow:hidden;
-	/* background-color:red; */
+	width: 40%;
+	overflow-x:hidden;
+	overflow-y:scroll;
 	word-wrap: break-word;
 }
 
@@ -228,8 +232,6 @@ ul li {
   top: 50%;
 	left:40%;
   transform: translate(-50%, -50%);
-  /* -ms-transform: translate(-50%, -50%); */
-  /*text-align: center;*/
 }
 
 .imageDescription > ul li{
@@ -259,43 +261,139 @@ ul li {
 }
 
 .tags {
-	width: 100%;
+	position:absolute;
+	width: 20%;
+	left:1%;
+	top:2%;
 	word-wrap: break-word;
 	/* background-color:green; */
-	margin-left:5%;
 	border:none;
+	padding:none;
+	height:90%;
+	overflow-y:scroll;
 }
 
 #tag_list li {
 	display:inline-block;
-	width:6%;
-	border-radius:10px;
+	width:auto;
+	border-radius:7px;
 	list-style:none;
-	margin:0.5%;
+	margin:8px;;
 	text-align:center;
 	background-color:gray;
 	font-size:1.8vmin;
 	color:white;
+	line-height:160%;
 }
 
-#tag_list a {
+#tag_list a, .Text, .deletebutton{
+	word-wrap: break-word;
 	display:block;
-	width:100%;
+	width:115%;
 	margin:0;
-	border-radius:10px;
+	border:none;
+	border-radius:7px;
 	text-decoration: none;
 	color:white;
-	font-size:1.8vmin;
+	font-family:sans-serif;
 	font-weight:thin;
 	background:gray;
+	text-align:center;
+	font-size:1.8vmin;
 }
 
-#tag_list a.selectedTag{
+.deletebutton {
+	cursor:pointer;
+}
+
+#tag_list a.selectedTag, #tag_list a:hover{
 	color:pink;
-	font-weight:bold;
 }
 
 #addtag {
 	position:absolute;
 	left: 7%;
+}
+
+#deleteImg {
+	position:relative;
+	top:0;
+}
+
+.deleteImgButton{
+	cursor:pointer;
+	position:relative;
+	left:1%;
+	display:block;
+	border:none;
+	border-radius:5px;
+	color:white;
+	background-color:gray;
+}
+.deleteImgButton:hover {
+	color:pink;
+}
+.deletebutton .tooltip {
+    visibility: hidden;
+    width: 15%;
+    background-color: black;
+    color:white;
+    text-align: center;
+    border-radius: 7px;
+    font-size:1.5vmin;
+    position: absolute;
+		z-index: 1;
+}
+
+.deletebutton:hover .tooltip {
+    visibility: visible;
+}
+
+.deletebutton:hover {
+	color:pink;
+}
+
+textarea {
+	overflow-y:scroll;
+}
+
+#alert{
+	position:absolute;
+	bottom:0;
+	left:0;
+	z-index:1;
+	background-color:rgba(0,0,0,0.8);
+	height:100%;
+	width:100%;
+	visibility:100%;
+	text-align:center;
+}
+
+#alert:target {
+		display:none;
+}
+
+#alert:target {
+	display:none;
+}
+
+#alert h3{
+	position:absolute;
+	top:25%;
+	width:100%;
+	text-align:center;
+	font-size:4vmin;
+}
+
+#alert h3 a {
+	color:white;
+	text-decoration:none;
+}
+
+.clsmsg {
+	margin-left:5%;
+}
+
+#alert h3 a:hover {
+	color:pink;
 }

@@ -1,5 +1,7 @@
 <?php include ("includes/init.php");
-$current_page = "logout"; ?>
+$current_page = "logout";
+log_out();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,14 +19,9 @@ $current_page = "logout"; ?>
       <?php include ("includes/nav.php"); ?>
 		</div>
     <div class = "content">
-      <?php
-      log_out();
-      if (!$current_user) {
-        echo "LOGGED OUT!";
-      }
-      ?>
-    </div>
 	</div>
+<?php print_message(); ?>
+</div>
 <?php include ("includes/footer.php") ?>
 </body>
 </html>

@@ -5,8 +5,7 @@ CREATE TABLE images (
   image_ext TEXT NOT NULL,
   user_id INTEGER NOT NULL,
   description TEXT,
-  citation TEXT,
-  vertical INTEGER DEFAULT 0/*vertical is 1 if the image is considered as long. 0 otherwise*/
+  citation TEXT
 );
 
 CREATE TABLE tags (
@@ -30,11 +29,11 @@ CREATE TABLE accounts (
 
 /* TODO: initial seed data */
 INSERT INTO accounts (username, password, realname)
-VALUES ("ronald94@yahoo.com", "$2y$10$UbmifY8q9xRiI7/R3jzCQeVfGqy14qra5YJ13KWQKNw4isdsB3h/G", "Ronald Sheng"); /* password: abcd1234*/
+VALUES ("ronald94@yahoo.com", "$2y$10$UbmifY8q9xRiI7/R3jzCQeVfGqy14qra5YJ13KWQKNw4isdsB3h/G", "Jumba Juice"); /* password: abcd1234*/
 INSERT INTO accounts (username, password, realname)
-VALUES ("ys766", "$2y$10$kVAeWyLFA7hyPaBMD9A3Jux6nsWGZGzr9nx7WOAZ2heNJttvmFBqq", "Kevin Gao"); /* password: I_love_Traveling */
+VALUES ("ys766", "$2y$10$kVAeWyLFA7hyPaBMD9A3Jux6nsWGZGzr9nx7WOAZ2heNJttvmFBqq", "In N Out"); /* password: I_love_Traveling */
 INSERT INTO accounts (username, password, realname)
-VALUES ("YuzheSheng", "$2y$10$itiPYmv3S69wb7ju90VRuOaVA7kxGwFMzGPRj/3ZniSxE5d104Tsy", "Yuzhe Sheng"); /* password: happycodingMonkey */
+VALUES ("YuzheSheng", "$2y$10$itiPYmv3S69wb7ju90VRuOaVA7kxGwFMzGPRj/3ZniSxE5d104Tsy", "DeepDish Pizza"); /* password: happycodingMonkey */
 
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("morocco.jpg", "jpg", "Morocco Temple", 1, "http://outgotrip.com/product/colours-of-morocco/");
@@ -64,8 +63,8 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("tokyotower.jpg", "jpg", "Tokyo Tower in Tokyo, Japan", 2, "https://www.lonelyplanet.com/japan/tokyo/attractions/tokyo-tower/a/poi-sig/396309/356817");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("bigbenlondon.jpg", "jpg", "Big Ben in London, Britain", 2, "https://www.100resilientcities.org/cities/london/");
-INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
-VALUES ("statueofLiberty.jpg", "jpg", "The Statue of Liberty in New York City", 2, "https://www.flickr.com/photos/dominiquejames/4621961395/", 1);
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("statueofLiberty.jpg", "jpg", "The Statue of Liberty in New York City", 2, "https://www.flickr.com/photos/dominiquejames/4621961395/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("hawaiibeach.jpg", "jpg", "A beach in Hawaii, US", 2, "http://beatofhawaii.com/the-cheapest-time-to-fly-to-hawaii-is-coming-soon/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -74,16 +73,16 @@ INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("africasavanna.jpg", "jpg", "African tropical savanna", 2, "https://sciencetrends.com/what-tropical-savanna/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Shanghaibund.jpg", "jpg", "The Bund in Shanghai", 1, "https://www.chinadiscovery.com/shanghai/the-bund.html");
-INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
-VALUES ("NYCEmpire.jpg", "jpg", "New York City Empire State Building", 1, "https://en.wikipedia.org/wiki/Empire_State_Building", 1);
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("NYCEmpire.jpg", "jpg", "New York City Empire State Building", 1, "https://en.wikipedia.org/wiki/Empire_State_Building");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("cherryblossm.jpg", "jpg", "Cherry Blossom", 2, "https://traveler.marriott.com/tokyo/the-best-time-to-view-japan-cherry-blossoms/");
-INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
-VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/",1);
-INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
-VALUES ("Eiffeltower.jpg", "jpg", "Eiffel Tower in Paris, France", 2, "https://www.amazon.com/Eiffel-Tower-Dusk-Poster-Print/dp/B000XRNKZM", 1);
-INSERT INTO images (image_name, image_ext, description, user_id, citation, vertical)
-VALUES ("willistower.jpg", "jpg", "The Willis Tower in Chicago, IL, US", 3, "http://peoriapublicradio.org/post/willis-tower-chicago-prepares-500m-face-lift", 1);
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("NYCjenga.jpg", "jpg", "Jenga building in Tribeca, NYC", 1, "http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/");
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("Eiffeltower.jpg", "jpg", "Eiffel Tower in Paris, France", 2, "https://www.amazon.com/Eiffel-Tower-Dusk-Poster-Print/dp/B000XRNKZM");
+INSERT INTO images (image_name, image_ext, description, user_id, citation)
+VALUES ("willistower.jpg", "jpg", "The Willis Tower in Chicago, IL, US", 3, "http://peoriapublicradio.org/post/willis-tower-chicago-prepares-500m-face-lift");
 /*1*/
 INSERT INTO tags (tag_name)
 VALUES ("asian");
@@ -114,6 +113,9 @@ VALUES ("animal");
 /*10*/
 INSERT INTO tags(tag_name)
 VALUES ("japan");
+/*11*/
+INSERT INTO tags(tag_name)
+VALUES ("london");
 
 
 INSERT INTO image_tag(image_id, tag_id)
@@ -156,3 +158,33 @@ INSERT INTO image_tag(image_id, tag_id)
 VALUES (10,7);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (10,6);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (11,1);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (11,2);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (11,3);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (12,1);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (12,2);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (12,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (13,1);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (13,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (13,10);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (14,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (14,8);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (14,11);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (15,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (15,5);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (16,3);

@@ -1,33 +1,10 @@
 <?php
 $pages = array("index" => "Home",
-               "gallery" => "Gallery",
-               "login" => "Log In",
-               "upload" => "Upload",
-               "logout" => "Logout");
-// show tags
-function showTags($tags, $single) {
-  global $tag_name;
-  if ($tags) {
-    echo "<div class=\"tags\">";
-    echo "<ul id=\"tag_list\">";
-    foreach($tags as $tag) {
-      $string = "<li>";
-      if (!$single) {
-        $string = $string . "<a ";
-        if (strlen($tag_name) > 0 and ($tag_name == $tag["tag_name"])) {
-          $string = $string . "class=\"selectedTag\" ";
-        }
-        echo $string. "href=\"gallery.php?".http_build_query(array("tag"=>$tag["tag_name"]))."\">#".
-                  ucfirst($tag["tag_name"])."</a></li>";
-      }
-      else {
-        echo $string . "#". ucfirst($tag["tag_name"]) . "</li>";
-      }
-    }
-    echo "</ul>";
-    echo "</div>";
-  }
-}
+"gallery" => "Gallery",
+"private_gallery" => "Private Gallery",
+"upload" => "Upload",
+"logout" => "Logout");
+
 // show database errors during development.
 function handle_db_error($exception) {
   echo '<p><strong>' . htmlspecialchars('Exception : ' . $exception->getMessage()) . '</strong></p>';
@@ -79,6 +56,30 @@ function record_message($message) {
   array_push($messages, $message);
 }
 
+// function print_message will print the messages to the user in a collapsible div
+function print_message($delete_image_id = NULL) {
+  global $messages;
+  if(count($messages) > 0) {
+    echo "<div id=\"alert\">";
+
+    foreach($messages as $message) {
+      $link = "#alert";
+      $msg = htmlspecialchars($message) . "<span class=\"clsmsg\">&times;</span>";
+
+      if ($delete_image_id) {
+        $link = "gallery.php";
+        $msg = $msg . "<br /><br />Click to view the Gallery>>>";
+      }
+
+      $string = "<h3><a href=\"" . $link . "\">" . $msg . "</a></h3>";
+
+      echo $string;
+    }
+
+    echo "</div>";
+  }
+}
+
 // open or initialize the database
 $db = open_or_init_sqlite_db("data.sqlite", "init/init.sql");
 $messages = array();
@@ -102,7 +103,6 @@ function check_login() {
                    "username" => $account["username"],
                    "realname" => $account["realname"]);
     }
-
     // no one has logged in.
     return NULL;
   }
@@ -131,18 +131,20 @@ function log_in($username, $password) {
         $session = uniqid();
         $sql = "UPDATE accounts SET session = :session WHERE id = :user_id;";
         $params = array(":session" => $session,
-                        ":user_id" => $account["id"]);
+        ":user_id" => $account["id"]);
         $record_login = exec_sql_query($db, $sql, $params);
 
         // success log-in
         if ($record_login) {
           setcookie("session", $session, time()+3600);
-          record_message("Logged in as " . $account["realname"]);
-          return TRUE;
+          record_message("Logged in as " . $account["username"]);
+          return array("id" => $account["id"],
+                       "username" => $account["username"],
+                       "realname" => $account["realname"]);
         }
 
         else {
-         record_message("Login failed");
+          record_message("Login failed");
         }
       }
       else { record_message("Invalid username or password"); }
@@ -151,7 +153,7 @@ function log_in($username, $password) {
   }
   else { record_message("No username or password is given"); }
 
-  return FALSE;
+  return NULL;
 }
 
 
@@ -164,9 +166,12 @@ function log_out() {
   if ($current_user) {
     $sql = "UPDATE accounts SET session = :session WHERE username = :username;";
     $params = array(":session" => NULL,
-                    ":username" => $current_user["username"]);
+    ":username" => $current_user["username"]);
     if (!exec_sql_query($db, $sql, $params)) {
       record_message("Logout failed");
+    }
+    else {
+      record_message("Successfully logged out");
     }
   }
   // remove cookie
@@ -181,11 +186,123 @@ if(isset($_POST["login"])) {
   $username = trim($username);
   $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
-  log_in($username, $password);
-
-  echo "Logged in as $username";
+  $current_user = log_in($username, $password);
 
 }
+else {
+  $current_user = check_login();
+}
 
-$current_user = check_login();
+CONST NUM_COLUMNS = 4;
+CONST PATH_IMG = "/uploads/images/";
+
+/*
+showTags displays the tags according to different situations. The input
+$tag is an array of tag names. If $single is true, then the tags do not
+have a link except for the current user can delete the tags. Otherwise, the links
+are used to view all images corresponding to a single tag. When $delete is true,
+Add little close icon to the tag so the user can delete the tags.
+*/
+function showTags($tags, $single=FALSE, $delete=FALSE, $image_id = NULL) {
+  if ($tags) {
+    global $current_user;
+    global $tag_name;
+    if ($tags) {
+      echo "<div class=\"tags\">";
+      if ($delete and $image_id) {
+        echo "<form id=\"delete_tag\" action=\"single_img.php?" .
+        http_build_query(array("image_id" => $image_id)) . "\" method = \"post\">";
+      }
+      echo "<ul id=\"tag_list\">";
+      foreach($tags as $tag) {
+        $string = "<li>";
+        // view all images in the gallery, where clicking on the tag
+        // can lead to a view of images with that clicked tag
+        if (!$single) {
+          $string = $string . "<a ";
+          if (strlen($tag_name) > 0 and ($tag_name == $tag["tag_name"])) {
+            $string = $string . "class=\"selectedTag\" ";
+          }
+          echo $string. "href=\"gallery.php?".http_build_query(array("tag"=>$tag["tag_name"]))."\">#".
+          ucfirst($tag["tag_name"])."</a></li>";
+        }
+        // view one image but does not show the delete functionality
+        else if (!$delete){
+          echo $string . "<span class=\"Text\">#". ucfirst($tag["tag_name"]) . "</span></li>";
+        }
+        // view one image with tag deletion functionality
+        else {
+          echo $string . "<button class=\"deletebutton\" title=\"Click to delete\"
+          type=\"submit\" name=\"tag_delete\" value=\"" .
+          htmlspecialchars($tag["tag_name"]) ."\">#" . ucfirst($tag["tag_name"]) . "<span> &times;
+          </span><span class=\"tooltip\">Click to delete</span></button></li>";
+        }
+      }
+      echo "</ul>";
+      if ($delete) {
+        echo "</form>";
+      }
+      echo "</div>";
+    }
+  }
+  else if ($single){
+    record_message("No tags found for this image. Tag it now");
+  }
+}
+/*
+The function showImage takes a single SQL query result as the input,
+and displays the corresponding queried image on the website. Also,
+this function displays all relevant information pertaining to that
+image in a divsion overlayed over the image. The information is listed
+as the bullet point list.
+*/
+function showImage($record) {
+  $image_id = $record["id"];
+  $img_ext = $record["image_ext"];
+  $file_name = PATH_IMG . $image_id . "." . $img_ext;
+  echo "<div class=\"container\">" .
+  "<img src=" . $file_name . " alt=$image_id class=\"galleryImages\">";
+  echo "<div class=\"textoverlay\"><div class=\"imageDescription\"><ul>
+  <li>Image Name: " . htmlspecialchars($record["image_name"]) . "</li>" .
+  "<li>Description: " . htmlspecialchars($record["description"]) . "</li>" .
+  "<li>Photographed by: " . htmlspecialchars($record["realname"]) . "</li>" .
+  "<li>Source: <a href=\"" . htmlspecialchars($record["citation"]) . "\">" .
+  htmlspecialchars($record["citation"]) . "</a></li><li></li>".
+  "<li><a class = \"img_link\" href=\"single_img.php?" .
+  http_build_query(array("image_id" => $image_id)). "\">View</a></li></ul>";
+  echo "</div></div></div>";
+}
+
+function galleryArrangement($records) {
+  if ($records) {
+  shuffle($records); // randomize the photo arrangments.
+  $length = count($records);
+  $num_per_column = ceil($length /  NUM_COLUMNS);
+  for ($i = 0; $i < NUM_COLUMNS; $i++) {
+    echo "<div class=\"column\">";
+    // all columns but the last one
+    if ($i < NUM_COLUMNS - 1) {
+      for ($j = 0; $j < $num_per_column; $j++) {
+        $index = $i * $num_per_column + $j;
+        if ($index < $length){
+          showImage($records[$index]);
+        }
+      }
+    }
+    // the last column
+    else {
+      $index = $i * $num_per_column;
+      while($index < $length) {
+        showImage($records[$index]);
+        $index = $index + 1;
+      }
+    }
+    echo "</div>";
+  }
+
+}
+else {
+  record_message("No requested image exists in our database");
+}
+}
 ?>
