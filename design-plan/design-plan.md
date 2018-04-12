@@ -30,8 +30,24 @@ I've selected **Abby** as my persona because my website will have a clear and ob
 #### 3. The Add image page
 ![](wireframe_login.jpg)
 
-This is suitable for Abby since the navigation bar is clear presented in each page. Also, the home page contains a comprehensive knowledge of all the images of the gallery. 
+This is suitable for Abby since the navigation bar is clear presented in each page. Also, the home page contains a comprehensive knowledge of all the images of the gallery.
+### New wireframes
+The design has been upldate. See the following for new wireframes.
+#### 1. The main page
+![](newwireframe_home.jpg)
 
+#### 2. The gallery
+![](newwireframe_gallery.jpg)
+
+#### 3. The log in page, which shares the same page with the My Gallery page
+![](newwireframe_login.jpg)
+
+#### 4. My gallery page, which shows the image after the user has logged in
+![](newwireframe_mygallery.jpg)
+#### 5. Upload
+![](newwireframe_upload.jpg)
+
+The new design was adopted because it is low-key and neater than the previous design. The new design looks cleaner so Abby would experience no trouble navigating through them. Also, the new design incorporates some animations, which will be suitable for Abby since the animations provide a way to direct the user how to proceed and navigate through the websites.
 ## 3. Database Schema Plan
 
 [Describe the structure of your database. You may use words or a picture. A bulleted list is probably the simplest way to do this.]
@@ -39,8 +55,10 @@ This is suitable for Abby since the navigation bar is clear presented in each pa
 Table: images
 * field 1: image_id (INTEGER, PRIMARY KEY, NOT NULL, AUTOINCREMENT, UNIQUE)
 * field 2: image_name (TEXT, NOT NULL)
+* field 3: image_ext (TEXT, NOT NULL)
 * field 3: description (TEXT)
 * field 4: user_id(INTEGER, NOT NULL)
+* field 5: citation (TEXT)
 
 Table: tags
 * field 1: tag_id(INTEGER, PRIMARY KEY, NOT NULL, AUTOINCREMENT, UNIQUE)
@@ -114,9 +132,11 @@ WHERE image_tag.image_id = id;
 ### Structure
 * index.php - main page.
 * includes/init.php - stuff that useful for every web page.
-* login.php - page for user to log in.
-* gallery.php - page for user to view images.
+* private_gallery.php - page for user to log in and view his/her own images only.
+* gallery.php - page for users to log in and/or view his/her own images.
 * upload.php - page for user to upload images.
+* logout.php - page for user to log out.
+* single_img.php - page for user to view one image ONLY.
 
 ### Pseudocode
 
@@ -151,7 +171,7 @@ $results = execute query to fetch required images together with tags;
 if ($results) {
   foreach($records) {
     display image with image_id;
-    add "delete" and "modify tag" button below each image;
+    add "delete" and "modify tag" button below each image if the user logged in happens to be the uploader. 
   }
 }
 ```
@@ -172,7 +192,9 @@ include init.php;
 create sql query based on the input;
 fetchRecords;
 print all images;
-
+if a tag is chosen,
+query the database to retrieve all images corresponding to that image
+display all related information.
 ```
 
 ### upload.php
@@ -185,5 +207,6 @@ Move the file to a desired location.
 ```
 ## 6. Seed Data - Username & Passwords
 
-* ronald94@yahoo.com: harrysheng0100
+* ronald94@yahoo.com: abcd1234
 * ys766: I_love_Traveling
+* YuzheSheng: happycodingMonkey

@@ -1,7 +1,7 @@
 <?php include ("includes/init.php");
 $current_page = "private_gallery"; ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -18,6 +18,7 @@ $current_page = "private_gallery"; ?>
     </div>
     <div class = "content">
       <?php
+      $image_exist = 1;
       // display the form only when there is no user logged in.
       if (!$current_user) {
       echo "<form id=\"userlogin\" action=\"private_gallery.php\" method=\"post\">
@@ -43,12 +44,15 @@ $current_page = "private_gallery"; ?>
         WHERE accounts.username = :username;";
         $params = array(":username" => $current_user["username"]);
         $records = exec_sql_query($db, $sql, $params) -> fetchAll();
+        if (!$records or (count($records)==0)) {
+          $image_exist = 0;
+        }
         galleryArrangement($records);
         echo "</div>";
       }
       ?>
     </div>
-    <?php print_message(); ?>
+    <?php print_message($image_exist); ?>
   </div>
   <?php include ("includes/footer.php") ?>
 </body>

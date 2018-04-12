@@ -57,23 +57,28 @@ function record_message($message) {
 }
 
 // function print_message will print the messages to the user in a collapsible div
-function print_message($delete_image_id = NULL) {
+function print_message($image_exist = 1) {
   global $messages;
+  $shown_msg = 0;
   if(count($messages) > 0) {
     echo "<div id=\"alert\">";
-
     foreach($messages as $message) {
       $link = "#alert";
-      $msg = htmlspecialchars($message) . "<span class=\"clsmsg\">&times;</span>";
+      $msg = htmlspecialchars($message);
+      if ($shown_msg == 0) {
+        $msg = $msg . "<span class=\"clsmsg\">&times;</span>";
+      }
 
-      if ($delete_image_id) {
+      if ($image_exist == 0) {
         $link = "gallery.php";
-        $msg = $msg . "<br /><br />Click to view the Gallery>>>";
+        $msg = $msg . "<br /><br />Click to view the Gallery <span class=\"clsmsg\">
+        &#10559;</span>";
       }
 
       $string = "<h3><a href=\"" . $link . "\">" . $msg . "</a></h3>";
 
       echo $string;
+      $shown_msg  = 1;
     }
 
     echo "</div>";
@@ -137,7 +142,7 @@ function log_in($username, $password) {
         // success log-in
         if ($record_login) {
           setcookie("session", $session, time()+3600);
-          record_message("Logged in as " . $account["username"]);
+          record_message("Logged in as " . $account["realname"]);
           return array("id" => $account["id"],
                        "username" => $account["username"],
                        "realname" => $account["realname"]);
@@ -224,17 +229,17 @@ function showTags($tags, $single=FALSE, $delete=FALSE, $image_id = NULL) {
             $string = $string . "class=\"selectedTag\" ";
           }
           echo $string. "href=\"gallery.php?".http_build_query(array("tag"=>$tag["tag_name"]))."\">#".
-          ucfirst($tag["tag_name"])."</a></li>";
+          htmlspecialchars(ucfirst($tag["tag_name"]))."</a></li>";
         }
         // view one image but does not show the delete functionality
         else if (!$delete){
-          echo $string . "<span class=\"Text\">#". ucfirst($tag["tag_name"]) . "</span></li>";
+          echo $string . "<span class=\"Text\">#". htmlspecialchars(ucfirst($tag["tag_name"])) . "</span></li>";
         }
         // view one image with tag deletion functionality
         else {
           echo $string . "<button class=\"deletebutton\" title=\"Click to delete\"
           type=\"submit\" name=\"tag_delete\" value=\"" .
-          htmlspecialchars($tag["tag_name"]) ."\">#" . ucfirst($tag["tag_name"]) . "<span> &times;
+          htmlspecialchars($tag["tag_name"]) ."\">#" . htmlspecialchars(ucfirst($tag["tag_name"])) . "<span> &times;
           </span><span class=\"tooltip\">Click to delete</span></button></li>";
         }
       }
@@ -247,6 +252,9 @@ function showTags($tags, $single=FALSE, $delete=FALSE, $image_id = NULL) {
   }
   else if ($single){
     record_message("No tags found for this image. Tag it now");
+  }
+  else {
+    record_message("No tags stored in the database");
   }
 }
 /*
@@ -271,12 +279,13 @@ function showImage($record) {
     htmlspecialchars($record["citation"]) . "</a></li><li></li>";
   }
   echo "<li><a class = \"img_link\" href=\"single_img.php?" .
-  http_build_query(array("image_id" => $image_id)). "\">View</a></li></ul></div></div></div>";
+  http_build_query(array("image_id" => $image_id)). "\">View</a></li>"."</ul></div></div></div>";
 }
 
 function galleryArrangement($records) {
   if ($records) {
-  shuffle($records); // randomize the photo arrangments.
+  // randomize the photo arrangments so that not all vertical images are clustered in one column all the time
+  shuffle($records);
   $length = count($records);
   $num_per_column = ceil($length /  NUM_COLUMNS);
   for ($i = 0; $i < NUM_COLUMNS; $i++) {
@@ -302,6 +311,7 @@ function galleryArrangement($records) {
   }
 
 }
+// no records are avaliable
 else {
   record_message("No requested image exists in our database");
 }

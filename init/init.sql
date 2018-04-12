@@ -5,7 +5,8 @@ CREATE TABLE images (
   image_ext TEXT NOT NULL,
   user_id INTEGER NOT NULL,
   description TEXT,
-  citation TEXT
+  citation TEXT,
+  FOREIGN KEY (user_id) REFERENCES accounts(id)
 );
 
 CREATE TABLE tags (
@@ -16,7 +17,9 @@ CREATE TABLE tags (
 CREATE TABLE image_tag (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   image_id INTEGER NOT NULL,
-  tag_id INTEGER NOT NULL
+  tag_id INTEGER NOT NULL,
+  FOREIGN KEY (image_id) REFERENCES images(id),
+  FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
 
 CREATE TABLE accounts (
@@ -29,7 +32,7 @@ CREATE TABLE accounts (
 
 /* TODO: initial seed data */
 INSERT INTO accounts (username, password, realname)
-VALUES ("ronald94@yahoo.com", "$2y$10$UbmifY8q9xRiI7/R3jzCQeVfGqy14qra5YJ13KWQKNw4isdsB3h/G", "Jumba Juice"); /* password: abcd1234*/
+VALUES ("ronald94@yahoo.com", "$2y$10$UbmifY8q9xRiI7/R3jzCQeVfGqy14qra5YJ13KWQKNw4isdsB3h/G", "Jamba Juice"); /* password: abcd1234*/
 INSERT INTO accounts (username, password, realname)
 VALUES ("ys766", "$2y$10$kVAeWyLFA7hyPaBMD9A3Jux6nsWGZGzr9nx7WOAZ2heNJttvmFBqq", "In N Out"); /* password: I_love_Traveling */
 INSERT INTO accounts (username, password, realname)
@@ -38,7 +41,7 @@ VALUES ("YuzheSheng", "$2y$10$itiPYmv3S69wb7ju90VRuOaVA7kxGwFMzGPRj/3ZniSxE5d104
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("morocco.jpg", "jpg", "Morocco Temple", 1, "http://outgotrip.com/product/colours-of-morocco/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("Istanbul.jpg", "jpg", "Istanbul, Turkey", 1, "https://handluggageonly.co.uk/2016/02/01/11-experiences-you-will-want-to-try-in-istanbul/");
+VALUES ("Istanbul.jpg", "jpg", "Istanbul, Turkey", 3, "https://handluggageonly.co.uk/2016/02/01/11-experiences-you-will-want-to-try-in-istanbul/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Dubai.jpg", "jpeg", "The Burj Khalifa in Dubai, United Arab Emirates", 1, "https://www.emiratesholidays.com/gb_en/destination/middle-east/dubai");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -48,7 +51,7 @@ VALUES ("antarctica.jpg", "jpg", "Antartica view", 3, "https://wikitravel.org/en
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("AfricaSafari.jpg", "jpg", "Elephant in an African grassland", 2, "https://www.zicasso.com/african-safari");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("capetown.jpg", "jpg", "Coast in Cape Town, South Africa", 2, "https://www.capetownmagazine.com/top-beaches-in-cape-town-and-surrounds");
+VALUES ("capetown.jpg", "jpg", "Coast in Cape Town, South Africa", 3, "https://www.capetownmagazine.com/top-beaches-in-cape-town-and-surrounds");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Maldivesbeach.jpg", "jpg", "A beach in Maldives", 1, "https://en.wikipedia.org/wiki/Maldives");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -60,7 +63,7 @@ VALUES ("xinjiang.jpg", "jpg", "Xinjiang in China", 2, "http://www.chinadaily.co
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("lijiang.jpg", "jpg", "Lijiang, Yunnan Province in China", 3, "https://www.pinterest.com/pin/266908715394586145/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("tokyotower.jpg", "jpg", "Tokyo Tower in Tokyo, Japan", 2, "https://www.lonelyplanet.com/japan/tokyo/attractions/tokyo-tower/a/poi-sig/396309/356817");
+VALUES ("tokyotower.jpg", "jpg", "Tokyo Tower in Tokyo, Japan", 1, "https://www.lonelyplanet.com/japan/tokyo/attractions/tokyo-tower/a/poi-sig/396309/356817");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("bigbenlondon.jpg", "jpg", "Big Ben in London, Britain", 2, "https://www.100resilientcities.org/cities/london/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -70,7 +73,7 @@ VALUES ("hawaiibeach.jpg", "jpg", "A beach in Hawaii, US", 2, "http://beatofhawa
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("HKVictoria.jpg", "jpg", "The Victoria Harbor in Hong Kong", 2, "http://www.nationsonline.org/oneworld/hong_kong.htm");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("africasavanna.jpg", "jpg", "African tropical savanna", 2, "https://sciencetrends.com/what-tropical-savanna/");
+VALUES ("africasavanna.jpg", "jpg", "African tropical savanna", 1, "https://sciencetrends.com/what-tropical-savanna/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Shanghaibund.jpg", "jpg", "The Bund in Shanghai", 1, "https://www.chinadiscovery.com/shanghai/the-bund.html");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
@@ -116,7 +119,9 @@ VALUES ("japan");
 /*11*/
 INSERT INTO tags(tag_name)
 VALUES ("london");
-
+/*12*/
+INSERT INTO tags(tag_name)
+VALUES ("bridge");
 
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (1,4);
@@ -170,6 +175,8 @@ INSERT INTO image_tag(image_id, tag_id)
 VALUES (12,2);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (12,4);
+INSERT INTO image_tag(image_id, tag_id)
+VALUES (12,12);
 INSERT INTO image_tag(image_id, tag_id)
 VALUES (13,1);
 INSERT INTO image_tag(image_id, tag_id)

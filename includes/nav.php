@@ -17,7 +17,7 @@
   </nav>
   <?php
   if ($current_user) {
-    echo "<h2> Welcome " . $current_user["realname"] . "! </h2>";
+    echo "<h2> Hello " . $current_user["realname"] . "! </h2>";
   }
    ?>
 </header>

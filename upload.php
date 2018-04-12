@@ -19,15 +19,24 @@ $current_page = "upload";
     </div>
     <div class = "content">
       <?php
-      const MAX_FILE_SIZE = 1000000;
+      //1000000
+      const MAX_FILE_SIZE = 3000000;
       const IMG_UPLOADS_PATH = "uploads/images/";
+      $uploaded = FALSE;
       // only logged in user can upload images
       if ($current_user and (isset($_POST["submit_upload"]))) {
         $upload_info = $_FILES["img_file"];
         $upload_desc = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
         $upload_tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
-        $source = filter_input(INPUT_POST, "source", FILTER_VALIDATE_URL);
+        $input_source = $_POST["source"];
+        $source = filter_var($input_source, FILTER_VALIDATE_URL);
 
+        // the user tried to input url but failed.
+        if ($input_source and !$source) {
+          record_message("Invalid URL for the source. Please upload again");
+        }
+
+        else {
         // only retain a-z A-Z 0-9 in the tags.
         $upload_tags = preg_replace("/[^a-z0-9]+/", " ", strtolower($upload_tags));
         $upload_tags = trim($upload_tags);
@@ -69,7 +78,7 @@ $current_page = "upload";
               $results = exec_sql_query($db, $sql_check_tag, $params_check_tag) -> fetchAll();
 
               // the tag already exists in the tags table
-              if ($results) {
+              if ($results or (count($results)>0)) {
                 $tag_id = $results[0]["id"];
               }
               // new tag does not exist in the tags table
@@ -100,7 +109,7 @@ $current_page = "upload";
               echo "<div class=\"uploadedImg\"><img class=\"newImg\" src=\"" .
               IMG_UPLOADS_PATH . "$file_id" . ".$upload_ext" .
               "\" alt=\"uploaded\"><a href=\"single_img.php?" .
-              http_build_query(array("image_id" => $file_id)) . "\">View Image>>></a></div>";
+              http_build_query(array("image_id" => $file_id)) . "\">View Image></a></div>";
               echo "<div class=\"details\">";
               echo "<ul><li> Image Name: " . htmlspecialchars($upload_name) . "</li>" .
               "<li> Description: " . htmlspecialchars($upload_desc) . "</li>" .
@@ -109,9 +118,9 @@ $current_page = "upload";
                 echo "<li> <a href=" . htmlspecialchars($source) .
                 ">Source: " . htmlspecialchars($source) . "</a></li>";
               }
-              echo "</ul>";
+              echo "</ul></div>";
               record_message("Your file has been uploaded");
-
+              $uploaded = TRUE;
             }
           } else {
             record_message("Failed to upload file");
@@ -120,10 +129,11 @@ $current_page = "upload";
           record_message("Failed to upload file");
         }
       }
+    }
 
       // show the upload form when there is no user logged in or the submit
       // button is not pressed.
-      else {
+      if (!$uploaded) {
         if (!$current_user and (isset($_POST["submit_upload"]))) {
           record_message("You must log in first to upload your image");
         }
@@ -136,15 +146,15 @@ $current_page = "upload";
         <label>Description:</label>
         </li>
         <li>
-        <textarea name=\"description\" cols=\"40\" rows=\"5\"></textarea>
+        <textarea name=\"description\" cols=\"35\" rows=\"5\"></textarea>
         </li>
         <li>
         <label> Tag the image: </label>
         </li>
         <li>
-        <textarea name=\"tags\" cols=\"30\" rows=\"5\"> </textarea>
+        <textarea name=\"tags\" cols=\"25\" rows=\"5\"> </textarea>
         </li>
-        <li><label>Source: </label><input type=\"url\" name=\"source\" /></li>
+        <li><label>Source: </label><input type=\"text\" name=\"source\" /></li>
         <li>
         <button name=\"submit_upload\" type=\"submit\">Upload</button>
         </li>

@@ -26,7 +26,7 @@ $tag_name = "";
 
     $sql_tag = "SELECT tag_name FROM tags;";
     $tags = exec_sql_query($db, $sql_tag) -> fetchAll();
-
+    $image_available = 1;
     // view all images at once
     if (!isset($_GET["image_id"]) and !isset($_GET["tag"])) {
       echo "<div class = \"content\">";
@@ -37,12 +37,20 @@ $tag_name = "";
       FROM images INNER JOIN accounts
       ON images.user_id = accounts.id;";
       $records = exec_sql_query($db, $sql) -> fetchAll();
+      if (!$records or (count($records) == 0)) {
+        $image_available = 0;
+      }
       galleryArrangement($records);
       echo "</div></div>";
     }
     // view all images with a single tag
     else if (isset($_GET["tag"])) {
       $tag_name = filter_var($_GET["tag"], FILTER_SANITIZE_STRING);
+      $tag_name = strtolower(trim($tag_name));
+      if (strlen($tag_name) == 0 or !$tag_name) {
+        record_message("Invalid tag search");
+      }
+      if (strlen($tag_name) >0) {
       $sql = "SELECT images.*, accounts.realname
       FROM images INNER JOIN accounts
       ON images.user_id = accounts.id
@@ -51,17 +59,21 @@ $tag_name = "";
         ON images.id = image_tag.image_id
         INNER JOIN tags
         ON image_tag.tag_id = tags.id
-        WHERE tags.tag_name = :tag_name)";
+        WHERE tags.tag_name = :tag_name);";
         $params = array(":tag_name" => $tag_name);
         $records = exec_sql_query($db, $sql, $params) -> fetchAll();
+        if (!$records) {
+          $image_available = 0;
+        }
         echo "<div class = \"content\">";
         showTags($tags);
         echo "<div class = \"window\">";
         galleryArrangement($records);
         echo "</div></div>";
       }
+    }
       ?>
-      <?php print_message(); ?>
+      <?php print_message($image_available); ?>
     </div>
     <?php include("includes/footer.php")?>
   </body>
@@ -88,5 +100,8 @@ $tag_name = "";
   19.jpg: https://www.chinadiscovery.com/shanghai/the-bund.html
   20.jpg: https://en.wikipedia.org/wiki/Empire_State_Building
   21.jpg: https://traveler.marriott.com/tokyo/the-best-time-to-view-japan-cherry-blossoms/
+  22.jpg: http://www.nydailynews.com/life-style/real-estate/tribeca-new-tallest-60-story-tower-rising-jenga-game-article-1.1339903/
+  23.jpg: https://www.amazon.com/Eiffel-Tower-Dusk-Poster-Print/dp/B000XRNKZM
+  24.jpg: http://peoriapublicradio.org/post/willis-tower-chicago-prepares-500m-face-lift"
 -->
 </html>

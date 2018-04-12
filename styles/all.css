@@ -12,12 +12,12 @@ body {
 	margin: 0;
 }
 
+
 .static {
 	position: fixed;
 	top: 0;
 	left:0;
 	height: 15%;
-	/* background:blue; */
 	width: 100%;
 	z-index:2;
 	overflow:hidden;
@@ -30,8 +30,8 @@ body {
 	top: 15%;
 	left:0;
 	width:100%;
-	height:80%;
-	overflow-y:hiden;
+	height:78%;
+	overflow-y:hidden;
 }
 
 #WebsiteHeader {
@@ -43,22 +43,23 @@ body {
 	width: 50%;
 	font-size: 8vmin;
 	font-weight:lighter;
+	letter-spacing:2px;
 }
 
 #menu ul {
 	position: absolute;
 	right: 3%;
 	top:20%;
-  margin: 0;
+	margin: 0;
 	width: 50%;
 	padding: 0;
- 	list-style: none;
+	list-style: none;
 }
 
 #menu li {
-  margin: 0;
-  padding: 2%;
-  display: inline;
+	margin: 0;
+	padding: 2%;
+	display: inline;
 }
 
 #menu a {
@@ -98,7 +99,7 @@ button {
 	font-size: 2vmin;
 }
 
-h2{
+header h2{
 	position: absolute;
 	top: 40%;
 	right:20%;
@@ -138,25 +139,16 @@ footer {
 	position:fixed;
 	margin:0;
 	bottom:0;
-	height:5%;
+	height:8%;
 	width:100%;
 	overflow:hidden;
-	z-index:2;
+	z-index:3;
 }
 
 footer > p {
 	position: absolute;
 	right: 5%;
-	bottom: 1%;
-}
-
-.intro {
-	font-size: 3vmin;
-	line-height:140%;
-	position: absolute;
-	top: 30%;
-	left: 30%;
-	right: 30%;
+	bottom: 0;
 }
 
 .single_img {
@@ -169,7 +161,7 @@ footer > p {
 }
 
 .img_single {
-  width: 100%;
+	width: 100%;
 	height: auto;
 	border-radius:5px;
 }
@@ -232,10 +224,10 @@ ul li {
 .imageDescription{
 	width:100%;
 	height:100%;
-  position: absolute;
-  top: 50%;
+	position: absolute;
+	top: 50%;
 	left:40%;
-  transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 
 .imageDescription > ul li{
@@ -250,7 +242,7 @@ ul li {
 	color:white;
 	width:50%;
 	text-align:center;
-	font-weight:thin;
+	font-weight:lighter;
 }
 
 .img_link {
@@ -261,7 +253,7 @@ ul li {
 	font-size: 2vmin;
 	line-height:200%;
 	background:rgba(0,0,0,0.5);
-	font-weight:thin;
+	font-weight: lighter;
 }
 
 .tags {
@@ -272,7 +264,7 @@ ul li {
 	word-wrap: break-word;
 	/* background-color:green; */
 	border:none;
-	padding:none;
+	padding:0;
 	height:90%;
 	overflow-y:scroll;
 }
@@ -300,7 +292,7 @@ ul li {
 	text-decoration: none;
 	color:white;
 	font-family:sans-serif;
-	font-weight:thin;
+	font-weight:lighter;
 	background:gray;
 	text-align:center;
 	font-size:1.8vmin;
@@ -332,19 +324,19 @@ ul li {
 }
 
 .deletebutton .tooltip {
-    visibility: hidden;
-    width: 15%;
-    background-color: black;
-    color:white;
-    text-align: center;
-    border-radius: 7px;
-    font-size:1.5vmin;
-    position: absolute;
-		z-index: 1;
+	visibility: hidden;
+	width: 15%;
+	background-color: black;
+	color:white;
+	text-align: center;
+	border-radius: 7px;
+	font-size:1.5vmin;
+	position: absolute;
+	z-index: 1;
 }
 
 .deletebutton:hover .tooltip {
-    visibility: visible;
+	visibility: visible;
 }
 
 
@@ -360,12 +352,8 @@ textarea {
 	background-color:rgba(0,0,0,0.8);
 	height:100%;
 	width:100%;
-	visibility:100%;
+	visibility: visible;
 	text-align:center;
-}
-
-#alert:target {
-		display:none;
 }
 
 #alert:target {
@@ -373,7 +361,7 @@ textarea {
 }
 
 #alert h3{
-	position:absolute;
+	position:relative;
 	top:25%;
 	width:100%;
 	text-align:center;
@@ -412,11 +400,116 @@ textarea {
 }
 
 .uploadedImg a:hover, #alert h3 a:hover, .deletebutton:hover, .deleteImgButton:hover,
-#tag_list a.selectedTag, #tag_list a:hover, .img_link:hover {
+#tag_list a.selectedTag, #tag_list a:hover, .img_link:hover{
 	color:rgb(255,182,193);
+}
+
+.arrow, .intro a{
+	color: rgb(231, 114, 124);
 }
 
 .newImg{
 	width:100%;
 	height:auto;
+}
+
+#bkg{
+	overflow-y:scroll;
+}
+
+
+.bkg1, .bkg2, .bkg3, .bkg4{
+	margin:0;
+	padding:0;
+	position:relative;
+	background-attachment:scroll;
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+}
+
+.active {
+	opacity:0.75;
+	transition: all 2.5s;
+}
+
+.fade_in {
+	opacity:0.3;
+}
+
+.bkg1{
+	background-image: url("/images/background1.jpg");
+	min-height:90%;
+}
+
+.bkg2{
+	background-color:black;
+	min-height:60%;
+}
+
+.bkg3 {
+	background-image: url("/images/background2.jpg");
+	min-height:100%;
+}
+
+.bkg4 {
+	background-color:black;
+	min-height:70%;
+}
+
+.intro {
+	position:absolute;
+	top:10%;
+	z-index:2;
+	left:25%;
+	text-align:center;
+	vertical-align: middle;
+	color:white;
+	font-weight:bold;
+	width:50%;
+	height:100%;
+	font-size:3vmin;
+	opacity:1;
+}
+
+.intro a {
+	text-decoration: none;
+	display:inline-block;
+	background:none;
+	border-radius:6px;
+	width:30%;
+}
+
+.bkgcitation{
+	position:absolute;
+	bottom:0;
+	left:1%;
+}
+
+.bkgcitation a {
+	text-decoration:none;
+	color:gray;
+	font-size:1.5vmin;
+}
+
+.arrow {
+	position:relative;
+	z-index:1;
+	text-align:center;
+	width:100%;
+	display:inline-block;
+	font-size:20vmin;;
+	transform:rotate(90deg);
+	animation-name:blink;
+	animation-duration:4s;
+	animation-iteration-count:infinite;
+	animation-timing-function:linear;
+}
+
+@keyframes blink {
+	0% {opacity: 0.2;}
+	25% {opacity: 0.5;}
+	50% {opacity:1;}
+	75% {opacity: 0.5;}
+	100% { opacity: 0.2;}
 }
