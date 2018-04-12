@@ -43,7 +43,7 @@ VALUES ("morocco.jpg", "jpg", "Morocco Temple", 1, "http://outgotrip.com/product
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Istanbul.jpg", "jpg", "Istanbul, Turkey", 3, "https://handluggageonly.co.uk/2016/02/01/11-experiences-you-will-want-to-try-in-istanbul/");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
-VALUES ("Dubai.jpg", "jpeg", "The Burj Khalifa in Dubai, United Arab Emirates", 1, "https://www.emiratesholidays.com/gb_en/destination/middle-east/dubai");
+VALUES ("Dubai.jpg", "jpg", "The Burj Khalifa in Dubai, United Arab Emirates", 1, "https://www.emiratesholidays.com/gb_en/destination/middle-east/dubai");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
 VALUES ("Arcticlight.jpg", "jpg", "Aurora in Northern Norway", 1, "https://www.wanderingeducators.com/best/traveling/arctic-light-aurora-borealis-vesterålen-northern-norway.html");
 INSERT INTO images (image_name, image_ext, description, user_id, citation)
