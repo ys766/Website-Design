@@ -422,7 +422,7 @@ textarea {
 	margin:0;
 	padding:0;
 	position:relative;
-	background-attachment:scroll;
+	background-attachment:fixed;
 	background-repeat:no-repeat;
 	background-position:center;
 	background-size:cover;
