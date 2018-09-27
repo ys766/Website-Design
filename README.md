@@ -6,6 +6,14 @@ See the course web page for Project 3's requirements: [Project 3](https://github
 
 See the respective **submit-*milestone*.md** file for each milestone for submission instructions.
 
-* Milestone 1: [submit-m1.md](submit-m1.md)
-* Milestone 2: [submit-m2.md](submit-m2.md)
 * Final Submission: [submit-final.md](submit-final.md)
+
+
+# Finished Project
+
+* This project contains both the backend development and the frontend web design.
+* This website is a photo-sharing website, where the ownership of each image is recorded in the database. 
+* Registered users who are also the owners of photos are able to remove a tag for an image. 
+* Any users can add tags to an image.
+* Users can log in remove his/her own images.
+
