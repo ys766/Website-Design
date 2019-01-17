@@ -227,7 +227,7 @@ if (isset($_POST["newUserInfo"])) {
     record_message("Successfully registered!");
   }
 
-  $current_user = log_in($username, $firstpassword);
+  #log_in($username, $firstpassword);
 
 }
 /*
