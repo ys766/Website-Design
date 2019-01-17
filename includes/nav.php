@@ -5,11 +5,23 @@
     <?php
     foreach($pages as $page_id => $page_name) {
       $filename = $page_id . ".php";
-      if ($current_page == $page_id) {
-        echo "<li> <a href=" . $filename . " class='current_page'>" . $page_name . "</a></li>";
+
+      if ($page_id == "private_gallery") {
+        if (!$current_user) {
+          $new_page_name = "Log In";
+        }
+        else {
+          $new_page_name = "My Gallery";
+        }
       }
       else {
-        echo "<li> <a href=" . $filename . ">" . $page_name . "</a></li>";
+        $new_page_name = $page_name;
+      }
+      if ($current_page == $page_id) {
+        echo "<li> <a href=" . $filename . " class='current_page'>" . $new_page_name . "</a></li>";
+      }
+      else {
+        echo "<li> <a href=" . $filename . ">" . $new_page_name . "</a></li>";
       }
     }
     ?>

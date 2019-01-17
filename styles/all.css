@@ -73,7 +73,7 @@ body {
 	color: black;
 }
 
-#userlogin, #upload{
+.userlogin, #upload{
 	border-style:solid;
 	width: 30%;
 	position: absolute;
@@ -82,16 +82,22 @@ body {
 	font-size: 4vmin;
 }
 
+#userregister {
+	position:absolute;
+	left:35%;
+	bottom: 60%;
+	font-style:bold;
+}
 input {
 	line-height: 250%;
 }
 
-#userlogin > ul,  #upload > ul {
+.userlogin > ul,  #upload > ul {
 	display:block;
 	list-style: none;
 }
 
-#userlogin > ul > li {
+.userlogin > ul > li {
 	line-height: 230%;
 }
 

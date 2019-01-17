@@ -20,20 +20,67 @@ $current_page = "private_gallery"; ?>
       <?php
       $image_exist = 1;
       // display the form only when there is no user logged in.
-      if (!$current_user) {
-      echo "<form id=\"userlogin\" action=\"private_gallery.php\" method=\"post\">
+      // and no new user wants to register
+      if (!$current_user && !isset($_POST["register"])) {
+      echo "<form class=\"userlogin\" action=\"private_gallery.php\" method=\"post\">
             <ul>
             <li>
-              <label> Username: </label>
-              <input type=\"text\" name=\"username\" required />
+              <label> Username*: </label>
+              <input type=\"text\" name=\"username\" required/>
             </li>
             <li>
-              <label> Password: </label>
-              <input type=\"password\" name=\"password\" required />
+              <label> Password*: </label>
+              <input type=\"password\" name=\"password\" required/>
             </li>
-            <li> <button name=\"login\" type=\"submit\"> Log In </button> </li>
+            <li> <button name=\"login\" type=\"submit\"> Log In </button>
+            </li>
           </ul>
         </form>";
+        echo "<form id=\"userregister\" action=\"private_gallery.php\" method=\"post\">
+        <button name=\"register\" type=\"submit\"> New user? Sign up now </button>
+        </form>
+        ";
+      }
+      // some new user wants to register an account
+      else if (!$current_user && isset($_POST["register"])) {
+        echo "<form class=\"userlogin\" action=\"private_gallery.php\" method=\"post\">
+        <ul>
+
+        <li>
+        <label> First Name*: </label>
+        <input type=\"text\" name=\"firstname\" required />
+        </li>
+
+        <li>
+        <label> Last Name*: </label>
+        <input type=\"text\" name=\"lastname\" required />
+        </li>
+
+        <li>
+        <label> Email Address*: </label>
+        <input type=\"email\" name=\"email\" required />
+        </li>
+
+        <li>
+        <label> Username*: </label>
+        <input type=\"text\" name=\"username\" />
+        </li>
+
+        <li>
+        <label> New password*: </label>
+        <input type=\"password\" name=\"password1st\" required />
+        </li>
+
+        <li>
+        <label> Confirm password*: </label>
+        <input type=\"password\" name=\"password2nd\" required />
+        </li>
+
+        <li> <button name=\"newUserInfo\" type=\"submit\"> Submit </button> </li>
+
+        </ul>
+        </form>
+        ";
       }
       // someone has logged in. Show his/her own images
       else {

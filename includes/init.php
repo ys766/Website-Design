@@ -202,6 +202,35 @@ CONST NUM_COLUMNS = 4;
 CONST PATH_IMG = "/uploads/images/";
 
 /*
+If a new user sends new user information, register the new user
+*/
+if (isset($_POST["newUserInfo"])) {
+  $firstname = trim(filter_input(INPUT_POST,"firstname", FILTER_SANITIZE_STRING));
+  $lastname = trim(filter_input(INPUT_POST, "lastname", FILTER_SANITIZE_STRING));
+  $username = trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING));
+  $emailAddress = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+  $firstpassword = trim(filter_input(INPUT_POST, "password1st", FILTER_SANITIZE_STRING));
+  $secondpassword = trim(filter_input(INPUT_POST, "password2nd", FILTER_SANITIZE_STRING));
+
+  $realname = $firstname . " " . $lastname;
+  $hash = password_hash($firstpassword, PASSWORD_DEFAULT);
+
+  $sql = "INSERT INTO accounts (username, password, realname)
+  VALUES (:username, :password, :realname);";
+  $params_link = array(":username" => $username,
+  ":password" => $hash, ":realname" => $realname);
+
+  if (!exec_sql_query($db, $sql, $params_link)) {
+    record_message("Failed to register");
+  }
+  else {
+    record_message("Successfully registered!");
+  }
+
+  $current_user = log_in($username, $firstpassword);
+
+}
+/*
 showTags displays the tags according to different situations. The input
 $tag is an array of tag names. If $single is true, then the tags do not
 have a link except for the current user can delete the tags. Otherwise, the links
