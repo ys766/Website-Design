@@ -19,6 +19,43 @@ $current_page = "private_gallery"; ?>
     <div class = "content">
       <?php
       $image_exist = 1;
+      /*
+      If a new user sends new user information, register the new user
+      */
+      if (isset($_POST["newUserInfo"])) {
+        $firstname = trim(filter_input(INPUT_POST,"firstname", FILTER_SANITIZE_STRING));
+        $lastname = trim(filter_input(INPUT_POST, "lastname", FILTER_SANITIZE_STRING));
+        $username = trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING));
+        $emailAddress = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+        $firstpassword = trim(filter_input(INPUT_POST, "password1st", FILTER_SANITIZE_STRING));
+        $secondpassword = trim(filter_input(INPUT_POST, "password2nd", FILTER_SANITIZE_STRING));
+
+        // check if the username already existed
+        $findusername = "SELECT * FROM accounts WHERE username = :username;";
+        $params = array(":username" => $username);
+        $results = exec_sql_query($db, $findusername, $params) -> fetchAll();
+
+        if ($results) {
+          record_message("Username already existed. Please use another username");
+
+        }
+        $realname = $firstname . " " . $lastname;
+        $hash = password_hash($firstpassword, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO accounts (username, password, realname)
+        VALUES (:username, :password, :realname);";
+        $params_link = array(":username" => $username,
+        ":password" => $hash, ":realname" => $realname);
+
+        if (!exec_sql_query($db, $sql, $params_link)) {
+          record_message("Failed to register");
+        }
+        else {
+          record_message("Successfully registered! Sign in NOW");
+        }
+
+        #log_in($username, $firstpassword);
+
+      }
       // display the form only when there is no user logged in.
       // and no new user wants to register
       if (!$current_user && !isset($_POST["register"])) {
