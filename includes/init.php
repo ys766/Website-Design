@@ -224,7 +224,7 @@ if (isset($_POST["newUserInfo"])) {
     record_message("Failed to register");
   }
   else {
-    record_message("Successfully registered!");
+    record_message("Successfully registered! Sign in NOW");
   }
 
   #log_in($username, $firstpassword);
