@@ -1,3 +1,3 @@
 <footer>
-  <p> &copy; Created by Yuzhe Sheng, 2018 </p>
+  <p> &copy; Created by Yuzhe Sheng, 2020 </p>
 </footer>

@@ -23,7 +23,7 @@ $current_page = "index"; ?>
       <div class = "bkg1">
 
         <div class="intro">
-          <h1>Welcome to TRAVEL BOOK!</h1> <br />
+          <h1>Welcome to Eric's TRAVEL BOOK!</h1> <br />
           <p>  Where awesomeness happens all the time <br /><br /> </p>
           <div class="arrow"><span>&#10151; </span></div>
         </div>

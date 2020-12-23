@@ -1,5 +1,5 @@
 <header>
-  <h1 id="WebsiteHeader"> TRAVEL BOOK </h1>
+  <h1 id="WebsiteHeader"> ERIC'S FOOTPRINTS </h1>
   <nav id="menu">
     <ul>
     <?php
